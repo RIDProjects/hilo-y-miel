@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+:root {
+  /* Colores del logo Hilo y Miel - Modo Claro */
+  --color-primary: #2C4A2E;      /* Verde bosque oscuro */
+  --color-primary-light: #1E3D20;
+  --color-cream: #F0EDE6;        /* Beige/crema */
+  --color-cream-dark: #E5E0D6;
+  --color-cream-darker: #D8D3C9;
+  
+  /* Aliases para Tailwind - Modo Claro */
+  --background: #F0EDE6;
+  --foreground: #2C4A2E;
+  --foreground-muted: #5A7A5C;
+  
+  /* Colores accent */
+  --color-amber: #D4A853;        /* Color miel/dorado */
+  --color-amber-light: #E8C97A;
+  
+  /* Fondos */
+  --card-bg: #FFFFFF;
+  --header-bg: #FFFFFF;
+}
+
+/* Modo Oscuro - cuando la clase .dark está en html */
+.dark {
+  --color-primary: #7CB97C;    /* Verde más claro para modo oscuro */
+  --color-primary-light: #9ACA9D;
+  --color-cream: #1A1F1A;      /* Verde oscuro muy suave */
+  --color-cream-dark: #242B24;
+  --color-cream-darker: #2D352D;
+  
+  --background: #1A1F1A;
+  --foreground: #E8E6DE;
+  --foreground-muted: #A8B5A4;
+  
+  --color-amber: #E8C97A;
+  --color-amber-light: #F0D89E;
+  
+  --card-bg: #242B24;
+  --header-bg: #242B24;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-amber: var(--color-amber);
+  --color-amber-light: var(--color-amber-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Utilidades adicionales - Modo Claro */
+.bg-cream {
+  background-color: var(--color-cream);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.text-primary {
+  color: var(--foreground);
+}
+
+.text-primary-muted {
+  color: var(--foreground-muted);
+}
+
+.bg-amber-custom {
+  background-color: var(--color-amber);
+}
+
+.text-amber-custom {
+  color: var(--color-amber);
+}
+
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.hover\:bg-primary-light:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* Card y header adaptativos */
+.bg-card {
+  background-color: var(--card-bg);
+}
+
+.bg-header {
+  background-color: var(--header-bg);
+}
+
+/* Dark mode text colors */
+.dark .text-gray-100 { color: #E8E6DE; }
+.dark .text-gray-200 { color: #C4C2B8; }
+.dark .text-gray-300 { color: #A8A598; }
+.dark .text-gray-400 { color: #8C8A78; }
+.dark .text-gray-500 { color: #A8B5A4; }
+.dark .text-gray-600 { color: #8A9A84; }
+.dark .text-gray-700 { color: #E8E6DE; }
+.dark .text-gray-800 { color: #E8E6DE; }
+.dark .text-gray-900 { color: #E8E6DE; }
+
+/* Dark mode border colors */
+.dark .border-gray-100 { border-color: #2D352D; }
+.dark .border-gray-200 { border-color: #3A453A; }
+.dark .border-gray-300 { border-color: #4A554A; }
+.dark .border-gray-400 { border-color: #5A655A; }
+
+/* Dark mode background colors */
+.dark .bg-gray-50 { background-color: #2D352D; }
+.dark .bg-gray-100 { background-color: #242B24; }
+.dark .bg-gray-200 { background-color: #1E231E; }
+.dark .bg-white { background-color: #242B24; }
+
+/* Dark mode ring colors */
+.dark .ring-gray-200 { --tw-ring-color: #3A453A; }
+.dark .ring-gray-300 { --tw-ring-color: #4A554A; }
