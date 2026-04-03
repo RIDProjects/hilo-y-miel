@@ -1,21 +1,45 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Font Display - Títulos grandes (como el logo)
+const cormorantItalic = Cormorant_Garamond({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: "italic",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cormorantRegular = Cormorant_Garamond({
+  variable: "--font-display-regular",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+// Font Body - Interfaz y textos
+const dmSans = DM_Sans({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+// Font Mono - Admin, IDs
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Hilo y Miel | Bisutería Artesanal",
-  description: "Bisutería artesanal - Diseños únicos y personalizados",
+  title: "Hilo & Miel | Bisutería Artesanal",
+  description: "Bisutería artesanal - Piezas únicas y diseños personalizados",
+  keywords: ["bisutería", "artesanal", "joyas", "diseño personalizado", "collar", "pulsera", "aros"],
+  authors: [{ name: "Hilo & Miel" }],
+  openGraph: {
+    title: "Hilo & Miel | Bisutería Artesanal",
+    description: "Bisutería artesanal - Diseños únicos y personalizados",
+    type: "website",
+  },
   icons: {
     icon: "/favicon.svg",
   },
@@ -27,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-cream dark:bg-[#1A1F1A] text-[#2C4A2E] dark:text-[#E8E6DE]">
+    <html lang="es" className={`${cormorantItalic.variable} ${cormorantRegular.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen bg-cream dark:bg-[#121A12] text-[#1E3820] dark:text-[#F0EDE6] antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

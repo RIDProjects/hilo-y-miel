@@ -1,130 +1,393 @@
 @import "tailwindcss";
 
 :root {
-  /* Colores del logo Hilo y Miel - Modo Claro */
-  --color-primary: #2C4A2E;      /* Verde bosque oscuro */
-  --color-primary-light: #1E3D20;
-  --color-cream: #F0EDE6;        /* Beige/crema */
-  --color-cream-dark: #E5E0D6;
-  --color-cream-darker: #D8D3C9;
+  /* ========================================
+     COLORES DEL LOGO - HILO & MIEL
+     ======================================== */
+  
+  /* Verde bosque - color principal */
+  --brand-green: #2C4A2E;
+  --brand-green-mid: #3D6B40;
+  --brand-green-light: #5E9060;
+  
+  /* Crema - fondos claros */
+  --brand-cream: #F0EDE6;
+  --brand-cream-dark: #E6E2D8;
+  --brand-cream-darker: #D8D3C9;
+  
+  /* Verde casi negro - textos oscuros */
+  --brand-drop: #1E3820;
+  
+  /* Color miel/dorado */
+  --brand-gold: #D4A853;
+  --brand-gold-light: #E8C97A;
   
   /* Aliases para Tailwind - Modo Claro */
-  --background: #F0EDE6;
-  --foreground: #2C4A2E;
+  --background: var(--brand-cream);
+  --foreground: var(--brand-drop);
   --foreground-muted: #5A7A5C;
   
-  /* Colores accent */
-  --color-amber: #D4A853;        /* Color miel/dorado */
-  --color-amber-light: #E8C97A;
+  /* Fondos de superficies */
+  --surface-card: #FAFAF7;
+  --surface-header: #FFFFFF;
   
-  /* Fondos */
-  --card-bg: #FFFFFF;
-  --header-bg: #FFFFFF;
+  /* Estado de éxito/error */
+  --color-success: #2D7A4A;
+  --color-error: #C0392B;
+  --color-warning: #8B6914;
 }
 
-/* Modo Oscuro - cuando la clase .dark está en html */
+/* ========================================
+   MODO OSCURO
+   ======================================== */
 .dark {
-  --color-primary: #7CB97C;    /* Verde más claro para modo oscuro */
-  --color-primary-light: #9ACA9D;
-  --color-cream: #1A1F1A;      /* Verde oscuro muy suave */
-  --color-cream-dark: #242B24;
-  --color-cream-darker: #2D352D;
+  /* Verde casi negro - fondo principal */
+  --brand-cream: #121A12;
   
-  --background: #1A1F1A;
-  --foreground: #E8E6DE;
+  /* Superficies */
+  --surface-card: #1C271C;
+  --surface-header: #1C271C;
+  
+  /* Fondos y textos */
+  --background: #121A12;
+  --foreground: var(--brand-cream);
   --foreground-muted: #A8B5A4;
   
-  --color-amber: #E8C97A;
-  --color-amber-light: #F0D89E;
-  
-  --card-bg: #242B24;
-  --header-bg: #242B24;
+  /* Verde medio para acentos */
+  --brand-green: #3D6B40;
+  --brand-green-mid: #5E9060;
+  --brand-green-light: #7CB97C;
+  --brand-drop: #F0EDE6;
 }
 
+/* ========================================
+   TAILWINDS THEME CONFIG
+   ======================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--color-primary);
-  --color-primary-light: var(--color-primary-light);
-  --color-cream: var(--color-cream);
-  --color-cream-dark: var(--color-cream-dark);
-  --color-amber: var(--color-amber);
-  --color-amber-light: var(--color-amber-light);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--brand-green);
+  --color-primary-mid: var(--brand-green-mid);
+  --color-primary-light: var(--brand-green-light);
+  --color-cream: var(--brand-cream);
+  --color-cream-dark: var(--brand-cream-dark);
+  --color-gold: var(--brand-gold);
+  --color-gold-light: var(--brand-gold-light);
+  --color-surface: var(--surface-card);
+  --color-success: var(--color-success);
+  --color-error: var(--color-error);
+  --color-warning: var(--color-warning);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
+/* ========================================
+   ESTILOS BASE
+   ======================================== */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
-/* Utilidades adicionales - Modo Claro */
+/* Textura de papel (noise) */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================
+   UTILIDADES DE MARCA
+   ======================================== */
 .bg-cream {
-  background-color: var(--color-cream);
+  background-color: var(--brand-cream);
 }
 
 .bg-primary {
-  background-color: var(--color-primary);
+  background-color: var(--brand-green);
 }
 
 .text-primary {
+  color: var(--brand-green);
+}
+
+.text-cream {
+  color: var(--brand-cream);
+}
+
+.text-gold {
+  color: var(--brand-gold);
+}
+
+.bg-surface {
+  background-color: var(--surface-card);
+}
+
+.bg-surface-header {
+  background-color: var(--surface-header);
+}
+
+/* Botón primario */
+.btn-primary {
+  background-color: var(--brand-green);
+  color: #FAFAF7;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 200ms ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--brand-green-mid);
+}
+
+.dark .btn-primary {
+  background-color: var(--brand-green-mid);
+}
+
+.dark .btn-primary:hover {
+  background-color: var(--brand-green-light);
+}
+
+/* Botón secundario (outlined) */
+.btn-secondary {
+  border: 1.5px solid var(--brand-green);
+  color: var(--brand-green);
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 200ms ease;
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  background: rgba(44, 74, 46, 0.06);
+}
+
+.dark .btn-secondary {
+  border-color: var(--brand-green-mid);
+  color: var(--brand-green-mid);
+}
+
+.dark .btn-secondary:hover {
+  background: rgba(94, 144, 96, 0.1);
+}
+
+/* Card de producto */
+.card-product {
+  background: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(30, 56, 32, 0.08);
+  transition: all 200ms ease;
+  border: 1px solid transparent;
+}
+
+.card-product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(30, 56, 32, 0.12);
+  border-color: rgba(44, 74, 46, 0.15);
+}
+
+/* Badge: Diseño custom */
+.badge-custom {
+  background: rgba(44, 74, 46, 0.1);
+  color: var(--brand-green);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Badge: Agotado */
+.badge-soldout {
+  background: rgba(0, 0, 0, 0.06);
+  color: #888888;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+/* Badge: Nuevo */
+.badge-new {
+  background: #F5E6C8;
+  color: #8B6914;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+/* Inputs de formulario */
+.input-field {
+  border: 1.5px solid rgba(44, 74, 46, 0.25);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 200ms ease;
+  background: var(--surface-card);
   color: var(--foreground);
 }
 
-.text-primary-muted {
-  color: var(--foreground-muted);
+.input-field:focus {
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 3px rgba(44, 74, 46, 0.12);
+  outline: none;
 }
 
-.bg-amber-custom {
-  background-color: var(--color-amber);
+.input-field::placeholder {
+  color: rgba(30, 56, 32, 0.4);
 }
 
-.text-amber-custom {
-  color: var(--color-amber);
+.input-field.error {
+  border-color: var(--color-error);
 }
 
-.border-primary {
-  border-color: var(--color-primary);
+.dark .input-field {
+  border-color: rgba(94, 144, 96, 0.25);
 }
 
-.hover\:bg-primary-light:hover {
-  background-color: var(--color-primary-light);
+.dark .input-field:focus {
+  border-color: var(--brand-green-mid);
+  box-shadow: 0 0 0 3px rgba(94, 144, 96, 0.12);
 }
 
-/* Card y header adaptativos */
-.bg-card {
-  background-color: var(--card-bg);
+/* ========================================
+   DARK MODE COLORES GRAY
+   ======================================== */
+.dark .text-gray-100 { color: #F0EDE6; }
+.dark .text-gray-200 { color: #D4D2C8; }
+.dark .text-gray-300 { color: #B8B6AC; }
+.dark .text-gray-400 { color: #A8B5A4; }
+.dark .text-gray-500 { color: #8A9A84; }
+.dark .text-gray-600 { color: #7A8A74; }
+.dark .text-gray-700 { color: #F0EDE6; }
+.dark .text-gray-800 { color: #F0EDE6; }
+.dark .text-gray-900 { color: #F0EDE6; }
+
+.dark .border-gray-100 { border-color: #1C271C; }
+.dark .border-gray-200 { border-color: #2A362A; }
+.dark .border-gray-300 { border-color: #384538; }
+.dark .border-gray-400 { border-color: #465446; }
+
+.dark .bg-gray-50 { background-color: #1C271C; }
+.dark .bg-gray-100 { background-color: #1C271C; }
+.dark .bg-gray-200 { background-color: #151D15; }
+.dark .bg-white { background-color: #1C271C; }
+.dark .bg-gray-800 { background-color: #121A12; }
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.bg-header {
-  background-color: var(--header-bg);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Dark mode text colors */
-.dark .text-gray-100 { color: #E8E6DE; }
-.dark .text-gray-200 { color: #C4C2B8; }
-.dark .text-gray-300 { color: #A8A598; }
-.dark .text-gray-400 { color: #8C8A78; }
-.dark .text-gray-500 { color: #A8B5A4; }
-.dark .text-gray-600 { color: #8A9A84; }
-.dark .text-gray-700 { color: #E8E6DE; }
-.dark .text-gray-800 { color: #E8E6DE; }
-.dark .text-gray-900 { color: #E8E6DE; }
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
 
-/* Dark mode border colors */
-.dark .border-gray-100 { border-color: #2D352D; }
-.dark .border-gray-200 { border-color: #3A453A; }
-.dark .border-gray-300 { border-color: #4A554A; }
-.dark .border-gray-400 { border-color: #5A655A; }
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
 
-/* Dark mode background colors */
-.dark .bg-gray-50 { background-color: #2D352D; }
-.dark .bg-gray-100 { background-color: #242B24; }
-.dark .bg-gray-200 { background-color: #1E231E; }
-.dark .bg-white { background-color: #242B24; }
+/* Stagger delays for lists */
+.stagger-1 { animation-delay: 0.07s; }
+.stagger-2 { animation-delay: 0.14s; }
+.stagger-3 { animation-delay: 0.21s; }
+.stagger-4 { animation-delay: 0.28s; }
+.stagger-5 { animation-delay: 0.35s; }
 
-/* Dark mode ring colors */
-.dark .ring-gray-200 { --tw-ring-color: #3A453A; }
-.dark .ring-gray-300 { --tw-ring-color: #4A554A; }
+/* ========================================
+   LOGO WATERMARK
+   ======================================== */
+.logo-watermark {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.light .logo-watermark {
+  opacity: 0.04;
+}
+
+.dark .logo-watermark {
+  opacity: 0.03;
+}
+
+/* ========================================
+   STEPPER DEL CONSTRUCTOR
+   ======================================== */
+.stepper-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stepper-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 200ms ease;
+}
+
+.step-circle.active {
+  background: var(--brand-green);
+  color: white;
+}
+
+.step-circle.completed {
+  background: var(--brand-green);
+  color: white;
+}
+
+.step-circle.pending {
+  border: 2px solid var(--brand-green);
+  color: var(--brand-green);
+}
+
+.dark .step-circle.pending {
+  border-color: var(--brand-green-mid);
+  color: var(--brand-green-mid);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(44, 74, 46, 0.2);
+}
+
+.dark .step-line {
+  background: rgba(94, 144, 96, 0.2);
+}
