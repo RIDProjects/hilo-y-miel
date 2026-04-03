@@ -33,6 +33,8 @@ export interface Product {
   componentsHash?: string
   isActive: boolean
   needsReview?: boolean
+  featured?: boolean
+  tags?: string[]
   createdAt: string
   updatedAt: string
 }

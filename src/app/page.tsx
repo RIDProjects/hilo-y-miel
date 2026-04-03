@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ProductGrid } from '@/components/Catalog/ProductGrid'
@@ -22,6 +21,7 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'AROS',
     isCustomDesign: false,
     isActive: true,
+    featured: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -34,6 +34,7 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'COLLARES',
     isCustomDesign: false,
     isActive: true,
+    featured: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -46,6 +47,7 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'PULSERAS',
     isCustomDesign: false,
     isActive: true,
+    featured: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -58,6 +60,7 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'DIJES',
     isCustomDesign: false,
     isActive: true,
+    featured: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -70,6 +73,7 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'SETS',
     isCustomDesign: false,
     isActive: true,
+    featured: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -82,8 +86,40 @@ const MOCK_PRODUCTS: Product[] = [
     category: 'AROS',
     isCustomDesign: false,
     isActive: true,
+    featured: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
+  },
+]
+
+// How it works steps
+const STEPS = [
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16m-7 6h7" />
+      </svg>
+    ),
+    title: 'Elige tu pieza',
+    description: 'Explora nuestro catálogo de piezas únicas o diseña la tuya',
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+      </svg>
+    ),
+    title: 'Personaliza',
+    description: 'Selecciona materiales, colores y dijes para crear tu diseño único',
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+      </svg>
+    ),
+    title: 'Recibe tu pedido',
+    description: 'Te notificamos cuando tu pieza esté lista y la enviamos a tu puerta',
   },
 ]
 
@@ -99,24 +135,23 @@ export default function Home() {
   const { data: products = [], isLoading } = useQuery<Product[]>({
     queryKey: ['products', selectedCategory],
     queryFn: async () => {
-      // En desarrollo sin DB, usar mock data
-      // En producción, esto fetchearía de /api/products
       if (!process.env.DATABASE_URL) {
-        // Modo desarrollo sin DB
-        await new Promise(resolve => setTimeout(resolve, 500)) // Simular delay
+        await new Promise(resolve => setTimeout(resolve, 500))
         let filtered = MOCK_PRODUCTS
         if (selectedCategory) {
           filtered = MOCK_PRODUCTS.filter(p => p.category === selectedCategory)
         }
         return filtered
       }
-      // Production: fetch from API
       const params = selectedCategory ? `?category=${selectedCategory}` : ''
       const res = await fetch(`/api/products${params}`)
       if (!res.ok) throw new Error('Failed to fetch products')
       return res.json()
     },
   })
+
+  // Featured products for hero section
+  const featuredProducts = products.filter((p: Product) => p.featured).slice(0, 4)
 
   const handleAddToCart = (product: Product) => {
     addItem({
@@ -158,43 +193,217 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Background Logo - Full area - subtle watermark effect */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-[0.03] dark:opacity-[0.02]">
-          <div className="w-full h-full scale-150">
+      {/* ==================== HERO SECTION ==================== */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-cream dark:bg-[#121A12] paper-texture">
+        {/* Logo watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="logo-watermark w-[800px] h-[800px] opacity-50 scale-150">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt=""
               fill
               className="object-contain"
             />
           </div>
         </div>
-      </div>
 
-      {/* Header */}
-      <header className="bg-white dark:bg-[#242B24] shadow-sm relative z-10">
-        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-              {/* Logo */}
-            <Link href="/" className="flex items-center gap-2" aria-label="Hilo y Miel - Volver al inicio">
-              <div className="relative h-12 w-16">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Hero text */}
+            <div className="space-y-8 animate-fade-in-up">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+                <span className="text-[#2C4A2E] dark:text-[#F0EDE6]">Bisutería </span>
+                <span className="text-[#D4A853] dark:text-[#E8C97A]">hecha</span>
+                <br />
+                <span className="italic text-[#2C4A2E] dark:text-[#F0EDE6]">con intención</span>
+              </h1>
+              
+              <p className="text-xl text-[#5A7A5C] dark:text-[#A8B5A4] max-w-md">
+                Piezas únicas diseñadas por ti o elegidas de nuestra colección exclusiva
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/catalogo"
+                  className="btn-primary text-center text-lg"
+                >
+                  Ver colección
+                </Link>
+                <Link
+                  href="/diseña-tu-pieza"
+                  className="btn-secondary text-center text-lg"
+                >
+                  Diseña tu pieza
+                </Link>
+              </div>
+            </div>
+
+            {/* Hero images grid */}
+            <div className="hidden lg:grid grid-cols-2 gap-4">
+              {featuredProducts.slice(0, 4).map((product, index) => (
+                <div 
+                  key={product.id}
+                  className={`relative aspect-square rounded-2xl overflow-hidden shadow-lg animate-fade-in-up stagger-${index + 1}`}
+                >
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.name}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                    <p className="text-white font-medium">{product.name}</p>
+                    <p className="text-white/80 text-sm">${product.price}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== FEATURED PRODUCTS ==================== */}
+      <section className="py-16 bg-surface dark:bg-[#1C271C]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-medium text-[#2C4A2E] dark:text-[#F0EDE6]" style={{ fontFamily: 'var(--font-display)' }}>
+              Piezas Destacadas
+            </h2>
+            <p className="mt-2 text-[#5A7A5C] dark:text-[#A8B5A4]">
+              Nuestra selección especial de piezas artesanales
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product, index) => (
+              <div 
+                key={product.id}
+                className="card-product p-3 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="relative aspect-square mb-3 rounded-xl overflow-hidden">
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
+                <h3 className="font-medium text-[#1E3820] dark:text-[#F0EDE6]">{product.name}</h3>
+                <p className="text-[#D4A853] font-semibold">${product.price}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link href="/catalogo" className="btn-secondary">
+              Ver todas las piezas
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== HOW IT WORKS ==================== */}
+      <section className="py-16 bg-cream dark:bg-[#121A12]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-medium text-[#2C4A2E] dark:text-[#F0EDE6]" style={{ fontFamily: 'var(--font-display)' }}>
+              ¿Cómo funciona?
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {STEPS.map((step, index) => (
+              <div 
+                key={index}
+                className="text-center p-6 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.15}s` }}
+              >
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#2C4A2E]/10 dark:bg-[#5E9060]/20 flex items-center justify-center text-[#2C4A2E] dark:text-[#5E9060]">
+                  {step.icon}
+                </div>
+                <h3 className="text-lg font-medium text-[#2C4A2E] dark:text-[#F0EDE6] mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-[#5A7A5C] dark:text-[#A8B5A4] text-sm">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== CATALOG PREVIEW ==================== */}
+      <section className="py-16 bg-surface dark:bg-[#1C271C]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+            <h2 className="text-2xl font-medium text-[#2C4A2E] dark:text-[#F0EDE6]" style={{ fontFamily: 'var(--font-display)' }}>
+              Nuestro Catálogo
+            </h2>
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+            />
+          </div>
+
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#2C4A2E] dark:border-[#5E9060] border-t-transparent"></div>
+            </div>
+          ) : (
+            <ProductGrid
+              products={products}
+              onAddToCart={handleAddToCart}
+              selectedProducts={selectedProducts}
+              onToggleSelect={handleToggleSelect}
+              selectionMode={selectionMode}
+            />
+          )}
+        </div>
+      </section>
+
+      {/* ==================== FOOTER ==================== */}
+      <footer className="bg-white dark:bg-[#1C271C] py-12 border-t border-[#D8D3C9] dark:border-[#2A362A]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-8 items-center">
+            {/* Logo */}
+            <div className="text-center md:text-left">
+              <div className="relative h-16 w-20 mx-auto md:mx-0">
                 <Image
-                  src="/logo.png"
-                  alt="Hilo y Miel"
+                  src="/logo.svg"
+                  alt="Hilo & Miel"
                   fill
                   className="object-contain"
-                  priority
                 />
               </div>
-            </Link>
+              <p className="mt-2 text-sm text-[#5A7A5C] dark:text-[#A8B5A4]">
+                Bisutería artesanal feita com intención
+              </p>
+            </div>
 
-            {/* Navigation */}
-            <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
+            {/* Links */}
+            <div className="text-center">
+              <div className="flex justify-center gap-6">
+                <Link href="/catalogo" className="text-[#2C4A2E] dark:text-[#F0EDE6] hover:text-[#D4A853]">
+                  Catálogo
+                </Link>
+                <Link href="/diseña-tu-pieza" className="text-[#2C4A2E] dark:text-[#F0EDE6] hover:text-[#D4A853]">
+                  Diseñar
+                </Link>
+                <Link href="/admin" className="text-[#2C4A2E]/50 dark:text-[#F0EDE6]/50 text-sm">
+                  Admin
+                </Link>
+              </div>
+            </div>
+
+            {/* Theme Toggle */}
+            <div className="text-center md:text-right">
               <button
                 onClick={toggle}
-                className="rounded-lg p-2 text-[#2C4A2E] dark:text-[#E8E6DE] hover:bg-[#F0EDE6] dark:hover:bg-[#2D352D] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#2C4A2E]/20 dark:border-[#5E9060]/30 text-[#2C4A2E] dark:text-[#F0EDE6] hover:bg-[#2C4A2E]/5 dark:hover:bg-[#5E9060]/10 transition-colors"
                 aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
               >
                 {isDark ? (
@@ -206,93 +415,21 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 )}
+                <span className="text-sm">{isDark ? 'Modo claro' : 'Modo oscuro'}</span>
               </button>
-
-              <Link
-                href="/builder"
-                className="rounded-lg px-4 py-2 text-sm font-medium text-[#2C4A2E] dark:text-[#E8E6DE] hover:bg-[#F0EDE6] dark:hover:bg-[#2D352D] transition-colors"
-              >
-                Crear Diseño
-              </Link>
-              <Link
-                href="/checkout"
-                className="relative rounded-lg bg-[#2C4A2E] dark:bg-[#7CB97C] px-4 py-2 text-sm font-medium text-white hover:bg-[#1E3D20] dark:hover:bg-[#9ACA9D] transition-colors"
-                aria-label={`Ver carrito con ${itemCount} productos`}
-              >
-                Carrito
-                {itemCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#D4A853] text-xs font-bold">
-                    {itemCount > 9 ? '9+' : itemCount}
-                  </span>
-                )}
-              </Link>
             </div>
           </div>
-        </div>
-      </header>
 
-      {/* Main content */}
-      <main className="flex-1 mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 relative z-10 w-full">
-        {/* Selection mode toggle */}
-        <div className="mb-6 flex items-center justify-between">
-          <button
-            onClick={() => {
-              setSelectionMode(!selectionMode)
-              if (selectionMode) setSelectedProducts([])
-            }}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              selectionMode
-                ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white'
-                : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E] dark:border-[#7CB97C]'
-            }`}
-          >
-            {selectionMode ? '✕ Cancelar Selección' : '☑ Seleccionar Productos'}
-          </button>
-        </div>
-
-        {/* Add selected button */}
-        {selectionMode && selectedProducts.length > 0 && (
-          <div className="mb-4 flex items-center justify-between rounded-lg bg-[#D4A853]/20 p-4">
-            <span className="text-[#2C4A2E] dark:text-[#E8E6DE] font-medium">
-              {selectedProducts.length} producto(s) seleccionado(s)
-            </span>
-            <button
-              onClick={handleAddSelected}
-              className="rounded-lg bg-[#2C4A2E] dark:bg-[#7CB97C] px-4 py-2 text-sm font-medium text-white hover:bg-[#1E3D20] dark:hover:bg-[#9ACA9D]"
-            >
-              Agregar Seleccionados
-            </button>
+          <div className="mt-8 pt-8 border-t border-[#D8D3C9] dark:border-[#2A362A] text-center">
+            <p className="text-sm text-[#5A7A5C] dark:text-[#A8B5A4]">
+              © 2026 Hilo & Miel | Bisutería Artesanal
+            </p>
           </div>
-        )}
-
-        {/* Category filter */}
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-
-        {/* Products */}
-        {isLoading ? (
-          <div className="flex justify-center py-12">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#2C4A2E] dark:border-[#7CB97C] border-t-transparent"></div>
-          </div>
-        ) : (
-          <ProductGrid
-            products={products}
-            onAddToCart={handleAddToCart}
-            selectedProducts={selectedProducts}
-            onToggleSelect={handleToggleSelect}
-            selectionMode={selectionMode}
-          />
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white dark:bg-[#242B24] py-6 relative z-10">
-        <div className="mx-auto max-w-7xl px-4 text-center text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] sm:px-6 lg:px-8">
-          <p>© 2026 Hilo y Miel | Bisutería Artesanal</p>
         </div>
       </footer>
     </div>
   )
 }
+
+// Import useQuery
+import { useQuery } from '@tanstack/react-query'
