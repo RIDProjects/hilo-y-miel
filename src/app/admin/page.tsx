@@ -262,23 +262,23 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#F0EDE6] dark:bg-[#1A1F1A] flex items-center justify-center">
-        <form onSubmit={handleLogin} className="bg-white dark:bg-[#242B24] p-8 rounded-lg shadow-md w-full max-w-md">
-          <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE] mb-6 text-center">Admin - Hilo y Miel</h1>
+      <div className="min-h-screen bg-cream dark:bg-[#121A12] flex items-center justify-center">
+        <form onSubmit={handleLogin} className="bg-surface dark:bg-[#1C271C] p-8 rounded-lg shadow-md w-full max-w-md">
+          <h1 className="text-2xl font-bold text-brand-drop dark:text-cream mb-6 text-center">Admin - Hilo y Miel</h1>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Ingresa la contraseña"
-            className="w-full border border-[#2C4A2E]/30 dark:border-[#7CB97C]/30 rounded-lg p-3 mb-4 focus:border-[#2C4A2E] dark:focus:border-[#7CB97C] focus:outline-none bg-white dark:bg-[#2D352D] text-[#2C4A2E] dark:text-[#E8E6DE]"
+            className="w-full border border-brand-green/30 dark:border-[#5E9060]/30 rounded-lg p-3 mb-4 focus:border-brand-green dark:focus:border-[#5E9060] focus:outline-none bg-white dark:bg-[#1C271C] text-brand-drop dark:text-cream"
           />
           <button
             type="submit"
-            className="w-full bg-[#2C4A2E] dark:bg-[#7CB97C] text-white py-3 rounded-lg hover:bg-[#1E3D20] dark:hover:bg-[#9ACA9D]"
+            className="w-full bg-brand-green dark:bg-[#5E9060] text-white py-3 rounded-lg hover:bg-brand-green-mid dark:hover:bg-[#7CB97C]"
           >
             Ingresar
           </button>
-          <Link href="/" className="block text-center mt-4 text-[#2C4A2E] dark:text-[#7CB97C] hover:text-[#1E3D20] dark:hover:text-[#9ACA9D]">
+          <Link href="/" className="block text-center mt-4 text-brand-green dark:text-[#5E9060] hover:text-brand-green-mid dark:hover:text-[#7CB97C]">
             Volver al inicio
           </Link>
         </form>
@@ -303,23 +303,23 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0EDE6] dark:bg-[#1A1F1A]">
+    <div className="min-h-screen bg-[#F0EDE6] dark:bg-[#121A12]">
       {/* Header */}
-      <header className="bg-white dark:bg-[#242B24] shadow-sm">
+      <header className="bg-white dark:bg-[#1C271C] shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/" className="text-[#2C4A2E] dark:text-[#7CB97C] hover:text-[#1E3D20] dark:hover:text-[#9ACA9D]">
                 ← Volver
               </Link>
-              <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE]">Panel de Administración</h1>
+              <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#F0EDE6]">Panel de Administración</h1>
               {!process.env.DATABASE_URL && (
                 <span className="text-xs bg-yellow-500 text-white px-2 py-1 rounded">MODO DESARROLLO</span>
               )}
             </div>
             <button
               onClick={() => setIsAuthenticated(false)}
-              className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] hover:text-[#2C4A2E] dark:hover:text-[#E8E6DE]"
+              className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] hover:text-[#2C4A2E] dark:hover:text-[#F0EDE6]"
             >
               Cerrar sesión
             </button>
@@ -328,7 +328,7 @@ export default function AdminPage() {
       </header>
 
       {/* Tabs */}
-      <div className="bg-white dark:bg-[#242B24] border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-[#1C271C] border-b border-gray-200 dark:border-gray-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex gap-1">
             <button
@@ -386,7 +386,7 @@ export default function AdminPage() {
                 <button
                   onClick={() => setFilter('all')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                    filter === 'all' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
+                    filter === 'all' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#1C271C] text-[#2C4A2E] dark:text-[#F0EDE6] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
                   }`}
                 >
                   Todos ({products.length})
@@ -394,7 +394,7 @@ export default function AdminPage() {
                 <button
                   onClick={() => setFilter('active')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                    filter === 'active' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
+                    filter === 'active' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#1C271C] text-[#2C4A2E] dark:text-[#F0EDE6] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
                   }`}
                 >
                   Activos ({products.filter(p => p.isActive).length})
@@ -402,7 +402,7 @@ export default function AdminPage() {
                 <button
                   onClick={() => setFilter('inactive')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                    filter === 'inactive' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
+                    filter === 'inactive' ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white' : 'bg-white dark:bg-[#1C271C] text-[#2C4A2E] dark:text-[#F0EDE6] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
                   }`}
                 >
                   Inactivos ({products.filter(p => !p.isActive).length})
@@ -419,8 +419,8 @@ export default function AdminPage() {
             {/* Product Form Modal */}
             {showProductForm && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                <div className="w-full max-w-lg rounded-lg bg-white dark:bg-[#242B24] p-6">
-                  <h2 className="text-xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE] mb-4">Nuevo Producto</h2>
+                <div className="w-full max-w-lg rounded-lg bg-white dark:bg-[#1C271C] p-6">
+                  <h2 className="text-xl font-bold text-[#2C4A2E] dark:text-[#F0EDE6] mb-4">Nuevo Producto</h2>
                   <form onSubmit={handleCreateProduct} className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre *</label>
@@ -530,7 +530,7 @@ export default function AdminPage() {
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#2C4A2E] dark:border-[#7CB97C] border-t-transparent"></div>
               </div>
             ) : (
-              <div className="overflow-x-auto rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#242B24]">
+              <div className="overflow-x-auto rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#1C271C]">
                 <table className="w-full">
                   <thead className="bg-[#F0EDE6] dark:bg-[#2D352D]">
                     <tr>
@@ -552,14 +552,14 @@ export default function AdminPage() {
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          <div className="max-w-xs truncate font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">{product.name}</div>
+                          <div className="max-w-xs truncate font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">{product.name}</div>
                           {product.needsReview && <span className="text-xs text-[#D4A853]">⚠️ Pendiente revisión</span>}
                         </td>
                         <td className="px-4 py-3 text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4]">{product.category}</td>
                         <td className="px-4 py-3 text-sm font-medium text-[#D4A853]">{formatPrice(Number(product.price))}</td>
                         <td className="px-4 py-3">
                           {product.isCustomDesign ? (
-                            <span className="rounded-full bg-[#D4A853]/20 px-2 py-1 text-xs font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">Personalizado</span>
+                            <span className="rounded-full bg-[#D4A853]/20 px-2 py-1 text-xs font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">Personalizado</span>
                           ) : (
                             <span className="rounded-full bg-[#2C4A2E]/10 dark:bg-[#7CB97C]/20 px-2 py-1 text-xs font-medium text-[#2C4A2E]/60 dark:text-[#A8B5A4]">Catálogo</span>
                           )}
@@ -603,10 +603,10 @@ export default function AdminPage() {
                 {orders.map((order) => {
                   const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items
                   return (
-                    <div key={order.id} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#242B24] p-4">
+                    <div key={order.id} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#1C271C] p-4">
                       <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
                         <div>
-                          <h3 className="font-semibold text-[#2C4A2E] dark:text-[#E8E6DE]">{order.customerName}</h3>
+                          <h3 className="font-semibold text-[#2C4A2E] dark:text-[#F0EDE6]">{order.customerName}</h3>
                           <p className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4]">{order.customerEmail} • {order.customerPhone}</p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -675,15 +675,15 @@ export default function AdminPage() {
         {activeTab === 'categories' && (
           <>
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-[#2C4A2E] dark:text-[#E8E6DE] mb-4">Gestionar Categorías</h2>
+              <h2 className="text-lg font-semibold text-[#2C4A2E] dark:text-[#F0EDE6] mb-4">Gestionar Categorías</h2>
               <p className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] mb-4">
                 Las categorías determinan cómo se agrupan los productos en el catálogo.
               </p>
             </div>
 
             {/* Add new category form */}
-            <div className="mb-6 p-4 rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#242B24]">
-              <h3 className="font-medium text-[#2C4A2E] dark:text-[#E8E6DE] mb-3">Agregar Nueva Categoría</h3>
+            <div className="mb-6 p-4 rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#1C271C]">
+              <h3 className="font-medium text-[#2C4A2E] dark:text-[#F0EDE6] mb-3">Agregar Nueva Categoría</h3>
               <form onSubmit={(e) => {
                 e.preventDefault()
                 const formData = new FormData(e.currentTarget)
@@ -718,10 +718,10 @@ export default function AdminPage() {
               {CATEGORY_OPTIONS.map((cat) => {
                 const productCount = products.filter(p => p.category === cat.value).length
                 return (
-                  <div key={cat.value} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#242B24] p-4">
+                  <div key={cat.value} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#1C271C] p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">{cat.label}</h3>
+                        <h3 className="font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">{cat.label}</h3>
                         <p className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4]">{productCount} producto(s)</p>
                       </div>
                       <span className="text-xs bg-[#2C4A2E]/10 dark:bg-[#7CB97C]/20 text-[#2C4A2E]/60 dark:text-[#A8B5A4] px-2 py-1 rounded">
@@ -739,7 +739,7 @@ export default function AdminPage() {
         {activeTab === 'designs' && (
           <>
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-[#2C4A2E] dark:text-[#E8E6DE] mb-4">Diseños Personalizados</h2>
+              <h2 className="text-lg font-semibold text-[#2C4A2E] dark:text-[#F0EDE6] mb-4">Diseños Personalizados</h2>
               <p className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] mb-4">
                 Aquí se gestionan los diseños personalizados creados por clientes que fueron guardados en el catálogo.
                 Puedes revisar, editar, aprobar o eliminar diseños pendientes.
@@ -756,7 +756,7 @@ export default function AdminPage() {
                 <div className="space-y-6">
                   {/* Pending Review */}
                   <div>
-                    <h3 className="text-md font-medium text-[#2C4A2E] dark:text-[#E8E6DE] mb-3">
+                    <h3 className="text-md font-medium text-[#2C4A2E] dark:text-[#F0EDE6] mb-3">
                       Pendientes de Revisión ({pendingReview.length})
                     </h3>
                     {pendingReview.length === 0 ? (
@@ -768,7 +768,7 @@ export default function AdminPage() {
                             <div className="relative h-32 w-full mb-3 rounded-lg overflow-hidden bg-gray-100">
                               <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
                             </div>
-                            <h4 className="font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">{product.name}</h4>
+                            <h4 className="font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">{product.name}</h4>
                             <p className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] line-clamp-2">{product.description}</p>
                             {product.components && (
                               <div className="mt-2 text-xs text-[#2C4A2E]/60 dark:text-[#A8B5A4]">
@@ -798,7 +798,7 @@ export default function AdminPage() {
 
                   {/* Approved Designs */}
                   <div>
-                    <h3 className="text-md font-medium text-[#2C4A2E] dark:text-[#E8E6DE] mb-3">
+                    <h3 className="text-md font-medium text-[#2C4A2E] dark:text-[#F0EDE6] mb-3">
                       Aprobados ({approved.length})
                     </h3>
                     {approved.length === 0 ? (
@@ -806,11 +806,11 @@ export default function AdminPage() {
                     ) : (
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {approved.map((product) => (
-                          <div key={product.id} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#242B24] p-4">
+                          <div key={product.id} className="rounded-lg border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 bg-white dark:bg-[#1C271C] p-4">
                             <div className="relative h-32 w-full mb-3 rounded-lg overflow-hidden bg-gray-100">
                               <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
                             </div>
-                            <h4 className="font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">{product.name}</h4>
+                            <h4 className="font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">{product.name}</h4>
                             <p className="text-sm text-[#D4A853] font-medium">{formatPrice(Number(product.price))}</p>
                             <div className="mt-3 flex gap-2">
                               <button

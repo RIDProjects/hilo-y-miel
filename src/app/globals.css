@@ -260,7 +260,7 @@ body {
 }
 
 /* ========================================
-   DARK MODE COLORES GRAY
+   DARK MODE COLORES GRAY COMPLETOS
    ======================================== */
 .dark .text-gray-100 { color: #F0EDE6; }
 .dark .text-gray-200 { color: #D4D2C8; }
@@ -272,15 +272,31 @@ body {
 .dark .text-gray-800 { color: #F0EDE6; }
 .dark .text-gray-900 { color: #F0EDE6; }
 
+.dark .bg-gray-50 { background-color: #1C271C; }
+.dark .bg-gray-100 { background-color: #1C271C; }
+.dark .bg-gray-200 { background-color: #151D15; }
+.dark .bg-gray-300 { background-color: #0F140F; }
+.dark .bg-gray-800 { background-color: #0A0F0A; }
+.dark .bg-white { background-color: #1C271C; }
+
 .dark .border-gray-100 { border-color: #1C271C; }
 .dark .border-gray-200 { border-color: #2A362A; }
 .dark .border-gray-300 { border-color: #384538; }
 .dark .border-gray-400 { border-color: #465446; }
+.dark .border-gray-500 { border-color: #546354; }
+.dark .border-gray-600 { border-color: #626262; }
 
-.dark .bg-gray-50 { background-color: #1C271C; }
-.dark .bg-gray-100 { background-color: #1C271C; }
-.dark .bg-gray-200 { background-color: #151D15; }
-.dark .bg-white { background-color: #1C271C; }
+/* Input backgrounds in dark */
+.dark input, 
+.dark textarea, 
+.dark select {
+  background-color: #1C271C;
+  color: #F0EDE6;
+}
+
+.dark ::placeholder {
+  color: #6A7A64;
+}
 .dark .bg-gray-800 { background-color: #121A12; }
 
 /* ========================================

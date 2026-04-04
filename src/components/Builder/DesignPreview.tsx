@@ -174,7 +174,7 @@ export function DesignPreview({ components }: DesignPreviewProps) {
   }, [components])
 
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-[#242B24] p-4">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-[#1C271C] p-4">
       <h3 className="mb-4 text-lg font-medium text-gray-800 dark:text-gray-200">Vista Previa</h3>
       <div className="flex justify-center">
         <canvas

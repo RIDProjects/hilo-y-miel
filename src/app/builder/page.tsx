@@ -195,7 +195,7 @@ export default function BuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream dark:bg-[#1A1F1A]">
+    <div className="min-h-screen bg-cream dark:bg-[#121A12]">
       {/* Hidden canvas for image generation */}
       <canvas
         ref={canvasRef}
@@ -205,14 +205,14 @@ export default function BuilderPage() {
       />
 
       {/* Header */}
-      <header className="bg-white dark:bg-[#242B24] shadow-sm">
+      <header className="bg-white dark:bg-[#1C271C] shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/" className="text-[#2C4A2E] dark:text-[#7CB97C] hover:text-[#1E3D20] dark:hover:text-[#9ACA9D]">
                 ← Volver
               </Link>
-              <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE]">Crear Diseño Personalizado</h1>
+              <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#F0EDE6]">Crear Diseño Personalizado</h1>
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function BuilderPage() {
         <div className="space-y-8">
           {/* Component Selector */}
           <div>
-            <h2 className="mb-6 text-xl font-semibold text-[#2C4A2E] dark:text-[#E8E6DE]">
+            <h2 className="mb-6 text-xl font-semibold text-[#2C4A2E] dark:text-[#F0EDE6]">
               Configura tu diseño
             </h2>
             <ComponentSelector
@@ -255,7 +255,7 @@ export default function BuilderPage() {
           <div className="text-center">
             <Link
               href="/"
-              className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] hover:text-[#2C4A2E] dark:hover:text-[#E8E6DE]"
+              className="text-sm text-[#2C4A2E]/60 dark:text-[#A8B5A4] hover:text-[#2C4A2E] dark:hover:text-[#F0EDE6]"
             >
               Cancelar
             </Link>

@@ -69,7 +69,7 @@ export function OrderForm({ onSubmit, isLoading }: OrderFormProps) {
           id="customerName"
           value={formData.customerName}
           onChange={(e) => handleChange('customerName', e.target.value)}
-          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#2D352D] text-gray-900 dark:text-gray-100 ${
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#1C271C] text-gray-900 dark:text-gray-100 ${
             errors.customerName
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
               : 'border-primary/30 dark:border-[#7CB97C]/30 focus:border-primary dark:focus:border-[#7CB97C] focus:ring-primary dark:focus:ring-[#7CB97C]'
@@ -91,7 +91,7 @@ export function OrderForm({ onSubmit, isLoading }: OrderFormProps) {
           id="customerEmail"
           value={formData.customerEmail}
           onChange={(e) => handleChange('customerEmail', e.target.value)}
-          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#2D352D] text-gray-900 dark:text-gray-100 ${
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#1C271C] text-gray-900 dark:text-gray-100 ${
             errors.customerEmail
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
               : 'border-primary/30 dark:border-[#7CB97C]/30 focus:border-primary dark:focus:border-[#7CB97C] focus:ring-primary dark:focus:ring-[#7CB97C]'
@@ -113,7 +113,7 @@ export function OrderForm({ onSubmit, isLoading }: OrderFormProps) {
           id="customerPhone"
           value={formData.customerPhone}
           onChange={(e) => handleChange('customerPhone', e.target.value)}
-          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#2D352D] text-gray-900 dark:text-gray-100 ${
+          className={`w-full rounded-lg border p-3 focus:outline-none focus:ring-2 bg-white dark:bg-[#1C271C] text-gray-900 dark:text-gray-100 ${
             errors.customerPhone
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
               : 'border-primary/30 dark:border-[#7CB97C]/30 focus:border-primary dark:focus:border-[#7CB97C] focus:ring-primary dark:focus:ring-[#7CB97C]'
@@ -136,7 +136,7 @@ export function OrderForm({ onSubmit, isLoading }: OrderFormProps) {
           value={formData.notes || ''}
           onChange={(e) => handleChange('notes', e.target.value)}
           rows={3}
-          className="w-full rounded-lg border border-primary/30 dark:border-[#7CB97C]/30 p-3 bg-white dark:bg-[#2D352D] text-gray-900 dark:text-gray-100 focus:border-primary dark:focus:border-[#7CB97C] focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-[#7CB97C]"
+          className="w-full rounded-lg border border-primary/30 dark:border-[#7CB97C]/30 p-3 bg-white dark:bg-[#1C271C] text-gray-900 dark:text-gray-100 focus:border-primary dark:focus:border-[#7CB97C] focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-[#7CB97C]"
           placeholder="Alguna instrucción especial para el pedido..."
         />
       </div>

@@ -52,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${cormorantItalic.variable} ${cormorantRegular.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-cream dark:bg-[#121A12] text-[#1E3820] dark:text-[#F0EDE6] antialiased">
+      <body className="min-h-screen bg-cream dark:bg-[#121A12] text-brand-drop dark:text-cream antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

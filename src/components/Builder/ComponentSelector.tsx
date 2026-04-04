@@ -46,7 +46,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
               className={`rounded-lg border p-3 text-sm font-medium transition-colors ${
                 components.tipoPieza === option.value
                   ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
               }`}
             >
               {option.label}
@@ -68,7 +68,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
               className={`rounded-lg border p-3 text-sm font-medium transition-colors ${
                 components.material === option.value
                   ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
               }`}
             >
               {option.label}
@@ -98,7 +98,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
                 className={`flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors ${
                   components.color === option.value
                     ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
                 }`}
               >
                 <span className={`h-4 w-4 rounded-full ${colorMap[option.value]}`} />
@@ -131,7 +131,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
                 className={`flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors ${
                   components.piedra === option.value
                     ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
                 }`}
               >
                 <span className={`h-4 w-4 rounded-full ${stoneColors[option.value]}`} />
@@ -155,7 +155,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
               className={`rounded-lg border p-3 text-sm font-medium transition-colors ${
                 components.tamanho === option.value
                   ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
               }`}
             >
               {option.label}
@@ -177,7 +177,7 @@ export function ComponentSelector({ components, onChange }: ComponentSelectorPro
               className={`rounded-lg border p-3 text-sm font-medium transition-colors ${
                 components.estilo === option.value
                   ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-200'
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#242B24] text-gray-700 dark:text-gray-300 hover:border-amber-300'
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C271C] text-gray-700 dark:text-gray-300 hover:border-amber-300'
               }`}
             >
               {option.label}

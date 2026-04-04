@@ -20,9 +20,9 @@ export default function CheckoutPage() {
   // Redirect if cart is empty
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-cream dark:bg-[#1A1F1A] flex items-center justify-center">
+      <div className="min-h-screen bg-cream dark:bg-[#121A12] flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE] mb-4">Tu carrito está vacío</h2>
+          <h2 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#F0EDE6] mb-4">Tu carrito está vacío</h2>
           <Link href="/" className="text-[#2C4A2E] dark:text-[#7CB97C] hover:text-[#1E3D20] dark:hover:text-[#9ACA9D]">
             Volver al catálogo
           </Link>
@@ -102,15 +102,15 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream dark:bg-[#1A1F1A]">
+    <div className="min-h-screen bg-cream dark:bg-[#121A12]">
       {/* Header */}
-      <header className="bg-white dark:bg-[#242B24] shadow-sm">
+      <header className="bg-white dark:bg-[#1C271C] shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <Link href="/" className="text-[#2C4A2E] dark:text-[#7CB97C] hover:text-[#1E3D20] dark:hover:text-[#9ACA9D]">
               ← Volver
             </Link>
-            <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#E8E6DE]">Checkout</h1>
+            <h1 className="text-2xl font-bold text-[#2C4A2E] dark:text-[#F0EDE6]">Checkout</h1>
           </div>
         </div>
       </header>
@@ -120,7 +120,7 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Left: Form */}
           <div>
-            <h2 className="mb-6 text-xl font-semibold text-[#2C4A2E] dark:text-[#E8E6DE]">
+            <h2 className="mb-6 text-xl font-semibold text-[#2C4A2E] dark:text-[#F0EDE6]">
               Datos del Cliente
             </h2>
             <OrderForm onSubmit={handleSubmit} isLoading={isLoading} />

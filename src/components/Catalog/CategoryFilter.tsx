@@ -18,7 +18,7 @@ export function CategoryFilter({
         className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
           selectedCategory === null
             ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white'
-            : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 hover:border-[#2C4A2E] dark:hover:border-[#7CB97C]'
+            : 'bg-white dark:bg-[#1C271C] text-[#2C4A2E] dark:text-[#F0EDE6] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 hover:border-[#2C4A2E] dark:hover:border-[#7CB97C]'
         }`}
       >
         Todos
@@ -31,7 +31,7 @@ export function CategoryFilter({
           className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             selectedCategory === option.value
               ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] text-white'
-              : 'bg-white dark:bg-[#242B24] text-[#2C4A2E] dark:text-[#E8E6DE] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 hover:border-[#2C4A2E] dark:hover:border-[#7CB97C]'
+              : 'bg-white dark:bg-[#1C271C] text-[#2C4A2E] dark:text-[#F0EDE6] border border-[#2C4A2E]/20 dark:border-[#7CB97C]/20 hover:border-[#2C4A2E] dark:hover:border-[#7CB97C]'
           }`}
         >
           {option.label}

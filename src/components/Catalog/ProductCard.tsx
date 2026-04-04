@@ -29,7 +29,7 @@ export function ProductCard({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg border bg-card dark:bg-[#242B24] shadow-sm transition-all hover:shadow-md ${
+      className={`relative overflow-hidden rounded-lg border bg-card dark:bg-[#1C271C] shadow-sm transition-all hover:shadow-md ${
         isSelected ? 'border-[#2C4A2E] dark:border-[#7CB97C] ring-2 ring-[#2C4A2E] dark:ring-[#7CB97C]' : 'border-[#2C4A2E]/20 dark:border-[#7CB97C]/20'
       }`}
     >
@@ -40,7 +40,7 @@ export function ProductCard({
           className={`absolute left-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 ${
             isSelected
               ? 'bg-[#2C4A2E] dark:bg-[#7CB97C] border-[#2C4A2E] dark:border-[#7CB97C]'
-              : 'border-[#2C4A2E]/30 dark:border-[#7CB97C]/30 bg-white dark:bg-[#242B24]'
+              : 'border-[#2C4A2E]/30 dark:border-[#7CB97C]/30 bg-white dark:bg-[#1C271C]'
           }`}
         >
           {isSelected && (
@@ -63,13 +63,13 @@ export function ProductCard({
 
       {/* Custom design badge */}
       {product.isCustomDesign && (
-        <span className="absolute right-2 top-2 z-10 rounded-full bg-[#D4A853]/20 px-2 py-1 text-xs font-medium text-[#2C4A2E] dark:text-[#E8E6DE]">
+        <span className="absolute right-2 top-2 z-10 rounded-full bg-[#D4A853]/20 px-2 py-1 text-xs font-medium text-[#2C4A2E] dark:text-[#F0EDE6]">
           Personalizado
         </span>
       )}
 
       {/* Image */}
-      <div className="relative aspect-square w-full overflow-hidden bg-[#E5E0D6] dark:bg-[#2D352D]">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#E5E0D6] dark:bg-[#1C271C]">
         <Image
           src={product.imageUrl}
           alt={product.name}
@@ -87,7 +87,7 @@ export function ProductCard({
           </span>
         </div>
 
-        <h3 className="mb-2 text-lg font-semibold text-[#2C4A2E] dark:text-[#E8E6DE]">
+        <h3 className="mb-2 text-lg font-semibold text-[#2C4A2E] dark:text-[#F0EDE6]">
           {product.name}
         </h3>
 

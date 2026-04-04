@@ -25,7 +25,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white dark:bg-[#242B24] shadow-xl">
+      <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white dark:bg-[#1C271C] shadow-xl">
         <div className="flex h-full flex-col">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-4 py-4">
