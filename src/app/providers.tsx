@@ -1,67 +1,50 @@
-'use client'
+"use client";
 
-import { useState, useEffect, createContext, useContext } from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
-  isDark: boolean
-  toggle: () => void
+  theme: Theme;
+  toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType>({ isDark: false, toggle: () => {} })
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const useTheme = () => useContext(ThemeContext)
-
-interface ProvidersProps {
-  children: React.ReactNode
-}
-
-export function Providers({ children }: ProvidersProps) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000,
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  )
-
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("light");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark')
-    } else {
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setIsDark(systemDark)
+    setMounted(true);
+    const stored = localStorage.getItem("theme") as Theme | null;
+    if (stored) {
+      setTheme(stored);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (mounted) {
-      if (isDark) {
-        document.documentElement.classList.add('dark')
-        localStorage.setItem('theme', 'dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-        localStorage.setItem('theme', 'light')
-      }
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
     }
-  }, [isDark, mounted])
+  }, [theme, mounted]);
 
-  const toggle = () => setIsDark(!isDark)
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggle }}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
     </ThemeContext.Provider>
-  )
+  );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within ThemeProvider");
+  }
+  return context;
 }

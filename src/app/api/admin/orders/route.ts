@@ -1,77 +1,43 @@
-import { NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-const hasDatabase = !!process.env.DATABASE_URL
-
-// GET /api/admin/orders - Listar todos los pedidos
-export async function GET() {
-  if (!hasDatabase) {
-    return NextResponse.json([])
-  }
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get("status");
+  const type = searchParams.get("type");
+  const dateFrom = searchParams.get("dateFrom");
+  const dateTo = searchParams.get("dateTo");
 
   try {
+    const where: Record<string, unknown> = {};
+
+    if (status) where.status = status;
+    if (type) where.order_type = type;
+
+    if (dateFrom || dateTo) {
+      where.created_at = {};
+      if (dateFrom) {
+        (where.created_at as Record<string, Date>).gte = new Date(dateFrom);
+      }
+      if (dateTo) {
+        (where.created_at as Record<string, Date>).lte = new Date(dateTo);
+      }
+    }
+
     const orders = await prisma.order.findMany({
-      orderBy: { createdAt: 'desc' },
+      where,
+      orderBy: { created_at: "desc" },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: { product: true },
+        },
+        customDesign: true,
       },
-    })
+    });
 
-    // Parse items JSON for each order
-    const ordersWithParsedItems = orders.map((order: any) => ({
-      ...order,
-      items: typeof order.items === 'string' ? JSON.parse(order.items) : order.items,
-    }))
-
-    return NextResponse.json(ordersWithParsedItems)
+    return NextResponse.json(orders);
   } catch (error) {
-    console.error('Error fetching orders:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener pedidos' },
-      { status: 500 }
-    )
-  }
-}
-
-// PUT /api/admin/orders - Actualizar estado de un pedido
-export async function PUT(request: Request) {
-  if (!hasDatabase) {
-    return NextResponse.json(
-      { error: 'Función no disponible sin base de datos' },
-      { status: 503 }
-    )
-  }
-
-  try {
-    const body = await request.json()
-    const { orderId, status } = body
-
-    if (!orderId || !status) {
-      return NextResponse.json(
-        { error: 'Faltan datos obligatorios' },
-        { status: 400 }
-      )
-    }
-
-    const validStatuses = ['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED']
-    if (!validStatuses.includes(status)) {
-      return NextResponse.json(
-        { error: 'Estado inválido' },
-        { status: 400 }
-      )
-    }
-
-    const order = await prisma.order.update({
-      where: { id: orderId },
-      data: { status: status as any },
-    })
-
-    return NextResponse.json(order)
-  } catch (error) {
-    console.error('Error updating order:', error)
-    return NextResponse.json(
-      { error: 'Error al actualizar pedido' },
-      { status: 500 }
-    )
+    console.error("Error fetching orders:", error);
+    return NextResponse.json({ error: "Error fetching orders" }, { status: 500 });
   }
 }

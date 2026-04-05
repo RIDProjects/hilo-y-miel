@@ -1,67 +1,57 @@
-import { NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-const hasDatabase = !!process.env.DATABASE_URL
-
-// GET /api/admin/products - Listar todos los productos (incluyendo inactivos)
-export async function GET() {
-  if (!hasDatabase) {
-    return NextResponse.json([])
-  }
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const category = searchParams.get("category");
+  const search = searchParams.get("search");
 
   try {
-    const products = await prisma.product.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
+    const where: Record<string, unknown> = {};
 
-    return NextResponse.json(products)
+    if (category) where.category = category;
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+        { tags: { has: search } },
+      ];
+    }
+
+    const products = await prisma.product.findMany({
+      where,
+      orderBy: { created_at: "desc" },
+    });
+
+    return NextResponse.json(products);
   } catch (error) {
-    console.error('Error fetching admin products:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener productos' },
-      { status: 500 }
-    )
+    console.error("Error fetching products:", error);
+    return NextResponse.json({ error: "Error fetching products" }, { status: 500 });
   }
 }
 
-// POST /api/admin/products - Crear nuevo producto
 export async function POST(request: Request) {
-  if (!hasDatabase) {
-    return NextResponse.json(
-      { error: 'Función no disponible sin base de datos' },
-      { status: 503 }
-    )
-  }
-
   try {
-    const body = await request.json()
-    const { name, description, price, category, imageUrl } = body
-
-    if (!name || !price || !category || !imageUrl) {
-      return NextResponse.json(
-        { error: 'Faltan datos obligatorios' },
-        { status: 400 }
-      )
-    }
+    const body = await request.json();
 
     const product = await prisma.product.create({
       data: {
-        name,
-        description: description || '',
-        price,
-        category,
-        imageUrl,
-        isCustomDesign: false,
-        isActive: true,
+        name: body.name,
+        description: body.description,
+        category: body.category,
+        price: body.price,
+        images: body.images || [],
+        components: body.components || null,
+        tags: body.tags || [],
+        is_available: body.is_available ?? true,
+        is_custom: body.is_custom ?? false,
+        featured: body.featured ?? false,
       },
-    })
+    });
 
-    return NextResponse.json(product, { status: 201 })
+    return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    console.error('Error creating product:', error)
-    return NextResponse.json(
-      { error: 'Error al crear producto' },
-      { status: 500 }
-    )
+    console.error("Error creating product:", error);
+    return NextResponse.json({ error: "Error creating product" }, { status: 500 });
   }
 }

@@ -1,59 +1,45 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
+import { ThemeProvider } from "./providers";
 
-// Font Display - Títulos grandes (como el logo)
-const cormorantItalic = Cormorant_Garamond({
-  variable: "--font-display",
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  style: "italic",
+  variable: "--font-cormorant",
+  display: "swap",
 });
 
-const cormorantRegular = Cormorant_Garamond({
-  variable: "--font-display-regular",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Font Body - Interfaz y textos
 const dmSans = DM_Sans({
-  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
+  display: "swap",
 });
 
-// Font Mono - Admin, IDs
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Hilo & Miel | Bisutería Artesanal",
-  description: "Bisutería artesanal - Piezas únicas y diseños personalizados",
-  keywords: ["bisutería", "artesanal", "joyas", "diseño personalizado", "collar", "pulsera", "aros"],
-  authors: [{ name: "Hilo & Miel" }],
-  openGraph: {
-    title: "Hilo & Miel | Bisutería Artesanal",
-    description: "Bisutería artesanal - Diseños únicos y personalizados",
-    type: "website",
-  },
-  icons: {
-    icon: "/favicon.svg",
-  },
+  description: "Bisutería artesanal hecha a mano",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="es" className={`${cormorantItalic.variable} ${cormorantRegular.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-cream dark:bg-[#121A12] text-brand-drop dark:text-cream antialiased">
-        <Providers>{children}</Providers>
+    <html lang="es" suppressHydrationWarning>
+      <body
+        className={`${cormorant.variable} ${dmSans.variable} ${jetbrains.variable} font-body`}
+      >
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

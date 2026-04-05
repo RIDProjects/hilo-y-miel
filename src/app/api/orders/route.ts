@@ -1,75 +1,81 @@
-import { NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
-const hasDatabase = !!process.env.DATABASE_URL
+const prisma = new PrismaClient();
 
-// GET /api/orders - Listar pedidos (para admin)
 export async function GET() {
-  if (!hasDatabase) {
-    return NextResponse.json([])
-  }
-
   try {
     const orders = await prisma.order.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
-
-    return NextResponse.json(orders)
+      orderBy: { created_at: "desc" },
+      include: {
+        orderItems: {
+          include: { product: true },
+        },
+        customDesign: true,
+      },
+    });
+    return NextResponse.json(orders);
   } catch (error) {
-    console.error('Error fetching orders:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener pedidos' },
-      { status: 500 }
-    )
+    console.error("Error fetching orders:", error);
+    return NextResponse.json({ error: "Error fetching orders" }, { status: 500 });
   }
 }
 
-// POST /api/orders - Crear nuevo pedido
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
+    const {
+      customer_name,
+      customer_email,
+      customer_phone,
+      notes,
+      items,
+      customDesign,
+      isCustomDesign,
+    } = body;
 
-    const { customerName, customerEmail, customerPhone, notes, items } = body
+    const order = await prisma.order.create({
+      data: {
+        customer_name,
+        customer_email,
+        customer_phone,
+        notes: notes || null,
+        order_type: isCustomDesign ? "custom" : "standard",
+        items: items as unknown as any,
+        design_summary: isCustomDesign
+          ? `${customDesign.base_type} - ${customDesign.material} - ${customDesign.size}`
+          : null,
+        customDesign: isCustomDesign
+          ? {
+              create: {
+                base_type: customDesign.base_type,
+                material: customDesign.material,
+                color_palette: customDesign.color_palette,
+                charms: customDesign.charms,
+                size: customDesign.size,
+                additional_notes: customDesign.additional_notes || null,
+              },
+            }
+          : undefined,
+      },
+    });
 
-    // Validar campos obligatorios
-    if (!customerName || !customerEmail || !customerPhone) {
-      return NextResponse.json(
-        { error: 'Faltan datos obligatorios' },
-        { status: 400 }
-      )
+    if (!isCustomDesign && items && items.length > 0) {
+      for (const item of items) {
+        await prisma.orderItem.create({
+          data: {
+            orderId: order.id,
+            productId: item.product.id,
+            quantity: item.quantity,
+            price: item.product.price,
+          },
+        });
+      }
     }
 
-    // Si hay base de datos, guardar el pedido
-    if (hasDatabase) {
-      const hasCustomDesigns = items.some(
-        (item: { type: string }) => item.type === 'custom'
-      )
-
-      const order = await prisma.order.create({
-        data: {
-          customerName,
-          customerEmail,
-          customerPhone,
-          notes,
-          items: JSON.stringify(items),
-          isCustomDesign: hasCustomDesigns,
-          status: 'PENDING',
-        },
-      })
-
-      return NextResponse.json(order, { status: 201 })
-    }
-
-    // Sin base de datos, retornar éxito sin guardar
-    return NextResponse.json(
-      { message: 'Pedido procesado (sin base de datos)', success: true },
-      { status: 201 }
-    )
+    return NextResponse.json({ orderId: order.id }, { status: 201 });
   } catch (error) {
-    console.error('Error creating order:', error)
-    return NextResponse.json(
-      { error: 'Error al crear pedido' },
-      { status: 500 }
-    )
+    console.error("Error creating order:", error);
+    return NextResponse.json({ error: "Error creating order" }, { status: 500 });
   }
 }
