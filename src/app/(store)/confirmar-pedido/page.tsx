@@ -20,7 +20,7 @@ const contactSchema = z.object({
     .email("Ingresa un correo electrónico válido"),
   customer_phone: z
     .string()
-    .regex(/^\d{8,15}$/, "El teléfono debe tener entre 8 y 15 dígitos"),
+    .regex(/^\+?[0-9]{8,15}$/, "El teléfono debe tener entre 8 y 15 dígitos (podés incluir el +)"),
   notes: z
     .string()
     .max(500, "Las notas no pueden exceder 500 caracteres")
@@ -360,7 +360,14 @@ function ConfirmarPedidoContent() {
                 <input
                   type="tel"
                   value={formData.customer_phone}
-                  onChange={(e) => handleInputChange("customer_phone", e.target.value.replace(/\D/g, ""))}
+                  onChange={(e) => {
+                    // Permite dígitos y + solo al inicio
+                    const raw = e.target.value;
+                    const cleaned = raw.startsWith("+")
+                      ? "+" + raw.slice(1).replace(/\D/g, "")
+                      : raw.replace(/\D/g, "");
+                    handleInputChange("customer_phone", cleaned);
+                  }}
                   onBlur={() => handleBlur("customer_phone")}
                   className="w-full px-4 py-3 rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent"
                   placeholder="54911xxxxxxxx"

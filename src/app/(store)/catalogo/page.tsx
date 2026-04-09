@@ -8,6 +8,8 @@ import MiniCartDrawer from "@/components/MiniCartDrawer";
 import type { Product } from "@/types/product";
 import type { CartItem } from "@/types/order";
 
+const PAGE_SIZE = 12;
+
 const defaultFilters: FilterState = {
   category: "",
   availableOnly: true,
@@ -18,6 +20,7 @@ const defaultFilters: FilterState = {
 
 export default function CatalogoPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -49,6 +52,7 @@ export default function CatalogoPage() {
 
   useEffect(() => {
     fetchProducts();
+    setVisibleCount(PAGE_SIZE);
   }, [fetchProducts]);
 
   useEffect(() => {
@@ -134,16 +138,30 @@ export default function CatalogoPage() {
                 ))}
               </div>
             ) : products.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {products.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAddToOrder={addToOrder}
-                    onViewDetail={(p) => router.push(`/producto/${p.id}`)}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {products.slice(0, visibleCount).map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onAddToOrder={addToOrder}
+                      onViewDetail={(p) => router.push(`/producto/${p.id}`)}
+                    />
+                  ))}
+                </div>
+
+                {visibleCount < products.length && (
+                  <div className="flex justify-center mt-10">
+                    <button
+                      onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                      className="px-8 py-3 border border-[var(--brand-green)] text-[var(--brand-green)] rounded-md hover:bg-[rgba(44,74,46,0.06)] transition-colors font-body"
+                      style={{ borderWidth: "1.5px" }}
+                    >
+                      Cargar más ({products.length - visibleCount} restantes)
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16">
                 <p className="text-lg text-[var(--color-text-muted)]">

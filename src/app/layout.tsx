@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, JetBrains_Mono, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./providers";
 
@@ -24,6 +24,13 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-great-vibes",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Hilo & Miel | Bisutería Artesanal",
   description: "Bisutería artesanal hecha a mano",
@@ -37,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${cormorant.variable} ${dmSans.variable} ${jetbrains.variable} font-body`}
+        className={`${cormorant.variable} ${dmSans.variable} ${jetbrains.variable} ${greatVibes.variable} font-body`}
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>

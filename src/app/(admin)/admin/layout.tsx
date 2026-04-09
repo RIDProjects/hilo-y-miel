@@ -36,14 +36,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
+  const [pendingDesignsCount, setPendingDesignsCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/orders?status=pending")
       .then((res) => res.json())
       .then((data) => {
-        if (data.orders) {
-          setPendingOrdersCount(data.orders.length);
-        }
+        if (data.orders) setPendingOrdersCount(data.orders.length);
+      })
+      .catch(() => {});
+
+    fetch("/api/admin/designs?status=pending")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setPendingDesignsCount(data.length);
+        else if (data.designs) setPendingDesignsCount(data.designs.length);
       })
       .catch(() => {});
   }, []);
@@ -55,14 +62,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream dark:bg-gray-900">
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      {/* Mobile hamburger */}
       <button
         onClick={() => setSidebarOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[var(--color-surface)] rounded-lg shadow-md border border-[var(--color-border)]"
       >
-        <Menu className="w-6 h-6 text-brand-green" />
+        <Menu className="w-6 h-6 text-[var(--brand-green)]" />
       </button>
 
+      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity ${
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -70,32 +79,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         onClick={() => setSidebarOpen(false)}
       />
 
+      {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-800 shadow-xl z-50 transform transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-[var(--color-surface)] shadow-xl z-50 transform transition-transform duration-300 lg:translate-x-0 border-r border-[var(--color-border)] ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-6 border-b border-gray-100 dark:border-gray-700">
+        <div className="p-6 border-b border-[var(--color-border)]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-[var(--brand-green)] rounded-full flex items-center justify-center flex-shrink-0">
               <Hexagon className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="font-display text-xl text-brand-green dark:text-white">
-                Hilo & Miel
+              <h2 className="font-display text-xl text-[var(--brand-green)]">
+                Hilo &amp; Miel
               </h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Admin Panel</p>
+              <p className="text-xs text-[var(--color-text-muted)]">Admin Panel</p>
             </div>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden absolute top-6 right-6 p-1"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-[var(--color-text-muted)]" />
           </button>
         </div>
 
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-1">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
@@ -106,15 +116,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive
-                    ? "bg-brand-green text-white"
-                    : "text-gray-600 dark:text-gray-300 hover:bg-brand-cream-dark dark:hover:bg-gray-700"
+                    ? "bg-[var(--brand-green)] text-white"
+                    : "text-[var(--color-text)] hover:bg-[var(--color-border)]"
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-5 h-5 flex-shrink-0" />
                 <span className="font-medium">{item.label}</span>
                 {item.href === "/admin/pedidos" && pendingOrdersCount > 0 && (
                   <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
                     {pendingOrdersCount}
+                  </span>
+                )}
+                {item.href === "/admin/disenos-custom" && pendingDesignsCount > 0 && (
+                  <span className="ml-auto bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    {pendingDesignsCount}
                   </span>
                 )}
               </Link>
@@ -122,7 +137,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[var(--color-border)]">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
@@ -133,8 +148,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
+      {/* Main */}
       <div className="lg:ml-64">
-        <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-100 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+        <header className="bg-[var(--color-surface)] shadow-sm border-b border-[var(--color-border)] px-6 py-4 flex items-center justify-between">
           <div className="lg:hidden w-10" />
 
           <div className="flex items-center gap-4 ml-auto">
@@ -142,19 +158,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-brand-green border border-brand-green rounded-lg hover:bg-brand-green hover:text-white transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-[var(--brand-green)] border border-[var(--brand-green)] rounded-lg hover:bg-[var(--brand-green)] hover:text-white transition-colors text-sm font-medium"
             >
               <ExternalLink className="w-4 h-4" />
-              <span className="font-medium">Ver tienda</span>
+              <span>Ver tienda</span>
             </a>
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-lg hover:bg-[var(--color-border)] transition-colors"
               aria-label="Toggle theme"
             >
               {theme === "light" ? (
-                <Moon className="w-5 h-5 text-gray-600" />
+                <Moon className="w-5 h-5 text-[var(--color-text-muted)]" />
               ) : (
                 <Sun className="w-5 h-5 text-yellow-400" />
               )}

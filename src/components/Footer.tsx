@@ -2,25 +2,35 @@
 
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
+import Logo from "@/components/Logo";
 
 export default function Footer() {
-  const whatsappNumber = "5491155555555";
+  const whatsappNumber =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5491155555555";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   return (
     <footer className="bg-[var(--color-bg)] border-t border-[var(--color-border)] py-12 mt-20 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <filter id="noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noise)" />
-        </svg>
+      {/* Logo watermark — fondo del footer, spec: 3–5% dark / 4–6% light */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-end overflow-hidden"
+        aria-hidden="true"
+      >
+        <Logo className="w-[420px] h-auto mr-[-60px] opacity-[0.045] dark:opacity-[0.035]" />
       </div>
-      
+
       <div className="max-w-6xl mx-auto px-4 relative z-10">
-        <div className="flex flex-col items-center gap-6">
-          <Link 
+        {/* Logo + tagline */}
+        <div className="flex flex-col items-center gap-3 mb-10">
+          <Logo className="h-20 w-auto" />
+          <p className="font-display text-lg italic text-[var(--color-text-muted)]">
+            Bisutería hecha con intención
+          </p>
+        </div>
+
+        {/* WhatsApp CTA */}
+        <div className="flex flex-col items-center gap-3 mb-10">
+          <Link
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
@@ -34,9 +44,10 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="border-t border-[var(--color-border)] mt-8 pt-8 text-center">
+        <div className="border-t border-[var(--color-border)] pt-8 text-center">
           <p className="text-sm text-[var(--color-text-muted)]">
-            © {new Date().getFullYear()} Hilo & Miel. Todos los derechos reservados.
+            © {new Date().getFullYear()} Hilo &amp; Miel. Todos los derechos
+            reservados.
           </p>
         </div>
       </div>

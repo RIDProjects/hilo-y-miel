@@ -27,6 +27,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (mounted) {
       localStorage.setItem("theme", theme);
       document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.classList.toggle("dark", theme === "dark");
     }
   }, [theme, mounted]);
 

@@ -56,8 +56,10 @@ export function buildWhatsAppMessage(
 }
 
 export function buildWhatsAppURL(message: string, phoneNumber?: string): string {
-  const defaultPhone = "5491167654321";
-  const phone = phoneNumber || defaultPhone;
+  const phone =
+    phoneNumber ||
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
+    "5491167654321";
   const encodedMessage = encodeURIComponent(message);
   return `https://wa.me/${phone}?text=${encodedMessage}`;
 }

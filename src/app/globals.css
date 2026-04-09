@@ -9,22 +9,27 @@
   --brand-cream: #F0EDE6;
   --brand-cream-dark: #E6E2D8;
   --brand-drop: #1E3820;
-  
+
   /* UI Colors - Light Mode */
   --color-bg: var(--brand-cream);
   --color-surface: #FAFAF7;
   --color-text: var(--brand-drop);
   --color-text-muted: #5a7a57;
   --color-border: var(--brand-cream-dark);
-  
+
   /* Accent */
   --color-accent: var(--brand-green);
   --color-accent-hover: var(--brand-green-mid);
-  
+
   /* Semantic */
   --color-success: #2C4A2E;
   --color-warning: #8B6914;
   --color-error: #C0392B;
+
+  /* Logo — theme-aware */
+  --logo-color: #2C4A2E;
+  --logo-color-mid: #3D6B40;
+  --logo-drop: #1E3820;
 }
 
 [data-theme="dark"] {
@@ -35,6 +40,11 @@
   --color-border: #2a352a;
   --color-accent: #3D6B40;
   --color-accent-hover: #5E9060;
+
+  /* Logo — visible sobre fondo oscuro */
+  --logo-color: #8BC48E;
+  --logo-color-mid: #6fa872;
+  --logo-drop: #a8d4ab;
 }
 
 * {
