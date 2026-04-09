@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { Loader2, Mail, Lock, AlertCircle } from "lucide-react";
@@ -21,7 +20,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  const [fieldErrors, setFieldErrors] = useState<Partial<LoginFormData>>({});
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof LoginFormData, string>>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,10 +29,10 @@ export default function LoginPage() {
 
     const result = loginSchema.safeParse(formData);
     if (!result.success) {
-      const errors: Partial<LoginFormData> = {};
+      const errors: Partial<Record<keyof LoginFormData, string>> = {};
       result.error.issues.forEach((issue) => {
         const field = issue.path[0] as keyof LoginFormData;
-        errors[field] = issue.message as any;
+        errors[field] = issue.message;
       });
       setFieldErrors(errors);
       return;
@@ -42,20 +41,22 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const supabase = createClient();
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (signInError) {
-        setError(signInError.message);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Error al iniciar sesión");
         return;
       }
 
       router.push("/admin");
       router.refresh();
-    } catch (err) {
+    } catch {
       setError("Ocurrió un error inesperado");
     } finally {
       setIsLoading(false);
@@ -63,14 +64,16 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-brand-cream flex items-center justify-center p-4">
+    <main className="min-h-screen bg-[var(--brand-cream)] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-brand-cream-dark">
+        <div className="bg-[var(--color-surface)] rounded-2xl shadow-xl p-8 border border-[var(--brand-cream-dark)]">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-display text-brand-green mb-2">
-              Hilo & Miel
+            <h1 className="text-3xl font-display text-[var(--brand-green)] mb-2">
+              Hilo &amp; Miel
             </h1>
-            <p className="text-gray-600 font-body">Panel de Administración</p>
+            <p className="text-[var(--color-text-muted)] font-body">
+              Panel de Administración
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -84,12 +87,12 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-[var(--color-text)] mb-2"
               >
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-muted)]" />
                 <input
                   id="email"
                   type="email"
@@ -97,10 +100,10 @@ export default function LoginPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent outline-none transition-all bg-[var(--color-bg)] text-[var(--color-text)] ${
                     fieldErrors.email
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200"
+                      ? "border-red-300"
+                      : "border-[var(--color-border)]"
                   }`}
                   placeholder="admin@email.com"
                 />
@@ -113,12 +116,12 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-[var(--color-text)] mb-2"
               >
                 Contraseña
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-muted)]" />
                 <input
                   id="password"
                   type="password"
@@ -126,23 +129,25 @@ export default function LoginPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[var(--brand-green)] focus:border-transparent outline-none transition-all bg-[var(--color-bg)] text-[var(--color-text)] ${
                     fieldErrors.password
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200"
+                      ? "border-red-300"
+                      : "border-[var(--color-border)]"
                   }`}
                   placeholder="••••••••"
                 />
               </div>
               {fieldErrors.password && (
-                <p className="mt-1 text-sm text-red-500">{fieldErrors.password}</p>
+                <p className="mt-1 text-sm text-red-500">
+                  {fieldErrors.password}
+                </p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-brand-green text-white py-3 px-4 rounded-lg font-medium hover:bg-brand-green-mid transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[var(--brand-green)] text-white py-3 px-4 rounded-lg font-medium hover:bg-[var(--brand-green-mid)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

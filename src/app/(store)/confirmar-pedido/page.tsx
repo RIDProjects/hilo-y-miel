@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Check, Package, Sparkles, Send, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { buildWhatsAppMessage, buildWhatsAppURL, formatPrice } from "@/utils/whatsapp";
+import { useCustomer } from "@/contexts/CustomerContext";
 import type { CartItem } from "@/types/order";
 import type { Product } from "@/types/product";
 
@@ -41,6 +42,7 @@ interface CustomDesignData {
 function ConfirmarPedidoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { customer } = useCustomer();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
@@ -54,6 +56,18 @@ function ConfirmarPedidoContent() {
     customer_phone: "",
     notes: "",
   });
+
+  // Pre-rellenar datos si el cliente está autenticado
+  useEffect(() => {
+    if (customer) {
+      setFormData((prev) => ({
+        ...prev,
+        customer_name: customer.name ?? prev.customer_name,
+        customer_email: customer.email ?? prev.customer_email,
+        customer_phone: customer.phone ?? prev.customer_phone,
+      }));
+    }
+  }, [customer]);
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
