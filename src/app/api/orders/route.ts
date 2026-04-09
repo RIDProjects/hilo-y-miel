@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { verifyCustomerToken } from "@/lib/jwt";
 
 const prisma = new PrismaClient();
 
@@ -21,7 +22,7 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const {
@@ -34,6 +35,12 @@ export async function POST(request: Request) {
       isCustomDesign,
     } = body;
 
+    // Vincular con cuenta de cliente si está autenticado
+    const customerToken = request.cookies.get("hilo-customer-token")?.value;
+    const customerPayload = customerToken
+      ? await verifyCustomerToken(customerToken)
+      : null;
+
     const order = await prisma.order.create({
       data: {
         customer_name,
@@ -42,6 +49,7 @@ export async function POST(request: Request) {
         notes: notes || null,
         order_type: isCustomDesign ? "custom" : "standard",
         items: items as unknown as any,
+        customer_id: customerPayload?.customerId ?? null,
         design_summary: isCustomDesign
           ? `${customDesign.base_type} - ${customDesign.material} - ${customDesign.size}`
           : null,

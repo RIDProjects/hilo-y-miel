@@ -14,10 +14,10 @@ export default function Hero() {
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-[var(--color-bg)]">
       <div className="paper-texture" />
 
-      {/* Logo watermark — descentrado a la derecha, spec: 4–6% opacidad */}
+      {/* Logo watermark — centrado, 4–6% opacidad */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute top-1/2 -right-24 -translate-y-1/2 opacity-[0.05]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.05]"
           aria-hidden="true"
         >
           <Logo className="w-[600px] h-auto" />
