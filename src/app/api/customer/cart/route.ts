@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyCustomerToken } from "@/lib/jwt";
 
 async function getCustomerFromRequest(request: NextRequest) {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { signCustomerToken } from "@/lib/jwt";
 
 const loginSchema = z.object({
@@ -60,7 +60,8 @@ export async function POST(request: Request) {
     });
 
     return response;
-  } catch {
+  } catch (error) {
+    console.error("[customer/login] Error:", error);
     return NextResponse.json({ error: "Error interno" }, { status: 500 });
   }
 }
