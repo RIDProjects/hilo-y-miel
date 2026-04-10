@@ -7,16 +7,13 @@ function getSecret(): Uint8Array {
   return new TextEncoder().encode(secret);
 }
 
-async function verifyRole(
-  token: string | undefined,
-  role: "admin" | "customer"
-): Promise<boolean> {
-  if (!token) return false;
+async function getRole(token: string | undefined): Promise<string | null> {
+  if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, getSecret());
-    return payload?.role === role;
+    return (payload?.role as string) ?? null;
   } catch {
-    return false;
+    return null;
   }
 }
 
@@ -24,33 +21,40 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isAdminRoute = pathname.startsWith("/admin");
-  const isLoginRoute = pathname === "/login";
+  const isAdminLoginRoute = pathname === "/login";
   const isAccountRoute = pathname.startsWith("/cuenta");
   const isAccountPublic =
     pathname === "/cuenta/login" || pathname === "/cuenta/registro";
 
-  if (isAdminRoute || isLoginRoute) {
-    const adminToken = request.cookies.get("hilo-admin-session")?.value;
-    const isAdmin = await verifyRole(adminToken, "admin");
+  const token = request.cookies.get("hilo-customer-token")?.value;
+  const role = await getRole(token);
 
-    if (isAdminRoute && !isAdmin) {
+  // Rutas del admin panel
+  if (isAdminRoute) {
+    if (role !== "admin") {
       const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      return NextResponse.redirect(url);
-    }
-
-    if (isLoginRoute && isAdmin) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/admin";
+      url.pathname = "/cuenta/login";
       return NextResponse.redirect(url);
     }
   }
 
-  if (isAccountRoute && !isAccountPublic) {
-    const customerToken = request.cookies.get("hilo-customer-token")?.value;
-    const isCustomer = await verifyRole(customerToken, "customer");
+  // Página de login legacy /login → redirigir a /cuenta/login
+  if (isAdminLoginRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = role === "admin" ? "/admin" : "/cuenta/login";
+    return NextResponse.redirect(url);
+  }
 
-    if (!isCustomer) {
+  // Si ya está autenticado como admin y visita /cuenta/login → al panel
+  if (pathname === "/cuenta/login" && role === "admin") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin";
+    return NextResponse.redirect(url);
+  }
+
+  // Rutas protegidas de cuenta de clientes
+  if (isAccountRoute && !isAccountPublic) {
+    if (!role) {
       const url = request.nextUrl.clone();
       url.pathname = "/cuenta/login";
       return NextResponse.redirect(url);

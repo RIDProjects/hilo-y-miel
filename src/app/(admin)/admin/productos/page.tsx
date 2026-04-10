@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { 
-  Search, 
-  Plus, 
-  Edit2, 
-  Copy, 
-  Trash2, 
+import {
+  Search,
+  Plus,
+  Edit2,
+  Copy,
+  Trash2,
   Package,
   Eye,
   EyeOff
@@ -43,7 +43,7 @@ export default function ProductosPage() {
       const params = new URLSearchParams();
       if (search) params.set("search", search);
       if (categoryFilter) params.set("category", categoryFilter);
-      
+
       const res = await fetch(`/api/admin/products?${params}`);
       const data = await res.json();
       setProducts(data);
@@ -124,8 +124,8 @@ export default function ProductosPage() {
   return (
     <main className="p-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-display text-brand-green">Gestión de Productos</h1>
-        <Link 
+        <h1 className="text-3xl font-display text-[var(--brand-green)]">Gestión de Productos</h1>
+        <Link
           href="/admin/productos/nuevo"
           className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-green-mid transition-colors"
         >
@@ -134,24 +134,24 @@ export default function ProductosPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark p-4 mb-6">
+      <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-4 mb-6">
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[200px]">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-muted)]" />
               <input
                 type="text"
                 placeholder="Buscar productos..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+                className="w-full pl-10 pr-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
               />
             </div>
           </div>
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+            className="px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
           >
             <option value="">Todas las categorías</option>
             {CATEGORIES.map(cat => (
@@ -161,7 +161,7 @@ export default function ProductosPage() {
           <select
             value={availableFilter}
             onChange={(e) => setAvailableFilter(e.target.value)}
-            className="px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+            className="px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
           >
             <option value="">Disponibilidad</option>
             <option value="available">Disponible</option>
@@ -170,7 +170,7 @@ export default function ProductosPage() {
           <select
             value={featuredFilter}
             onChange={(e) => setFeaturedFilter(e.target.value)}
-            className="px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+            className="px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
           >
             <option value="">Destacados</option>
             <option value="featured">Destacados</option>
@@ -179,53 +179,53 @@ export default function ProductosPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark overflow-hidden">
+      <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-brand-cream/50">
+            <thead className="bg-[var(--brand-cream)]/50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Imagen</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Categoría</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Precio</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Destacado</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Imagen</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Nombre</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Categoría</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Precio</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Stock</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Destacado</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-brand-cream-dark">
+            <tbody className="divide-y divide-[var(--color-border)]">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">Cargando...</td>
+                  <td colSpan={7} className="px-4 py-8 text-center text-[var(--color-text-muted)]">Cargando...</td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">No hay productos</td>
+                  <td colSpan={7} className="px-4 py-8 text-center text-[var(--color-text-muted)]">No hay productos</td>
                 </tr>
               ) : (
                 filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-brand-cream/30 transition-colors">
+                  <tr key={product.id} className="hover:bg-[var(--brand-cream)]/30 transition-colors">
                     <td className="px-4 py-4">
-                      <div className="w-12 h-12 rounded-lg bg-brand-cream overflow-hidden">
+                      <div className="w-12 h-12 rounded-lg bg-[var(--brand-cream)] overflow-hidden">
                         {product.images[0] ? (
                           <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                         ) : (
-                          <Package className="w-full h-full p-2 text-gray-400" />
+                          <Package className="w-full h-full p-2 text-[var(--color-text-muted)]" />
                         )}
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <div className="font-medium text-gray-900">{product.name}</div>
-                      <div className="text-xs text-gray-500">{product.category}</div>
+                      <div className="font-medium text-[var(--color-text)]">{product.name}</div>
+                      <div className="text-xs text-[var(--color-text-muted)]">{product.category}</div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500 capitalize">{product.category}</td>
-                    <td className="px-4 py-4 text-sm font-medium text-gray-900">${product.price.toLocaleString()}</td>
+                    <td className="px-4 py-4 text-sm text-[var(--color-text-muted)] capitalize">{product.category}</td>
+                    <td className="px-4 py-4 text-sm font-medium text-[var(--color-text)]">${product.price.toLocaleString()}</td>
                     <td className="px-4 py-4">
                       <button
                         onClick={() => updateProduct(product.id, { is_available: !product.is_available })}
                         className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                          product.is_available 
-                            ? "bg-green-100 text-green-800" 
+                          product.is_available
+                            ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
                         }`}
                       >
@@ -240,9 +240,9 @@ export default function ProductosPage() {
                       <button
                         onClick={() => updateProduct(product.id, { featured: !product.featured })}
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          product.featured 
-                            ? "bg-yellow-100 text-yellow-800" 
-                            : "bg-gray-100 text-gray-500"
+                          product.featured
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-[var(--color-border)] text-[var(--color-text-muted)]"
                         }`}
                       >
                         {product.featured ? "★ Destacado" : "○ Normal"}
@@ -252,21 +252,21 @@ export default function ProductosPage() {
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/admin/productos/${product.id}`}
-                          className="p-2 text-gray-500 hover:text-brand-green transition-colors"
+                          className="p-2 text-[var(--color-text-muted)] hover:text-[var(--brand-green)] transition-colors"
                           title="Editar"
                         >
                           <Edit2 className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => duplicateProduct(product)}
-                          className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
+                          className="p-2 text-[var(--color-text-muted)] hover:text-blue-600 transition-colors"
                           title="Duplicar"
                         >
                           <Copy className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => deleteProduct(product.id)}
-                          className="p-2 text-gray-500 hover:text-red-600 transition-colors"
+                          className="p-2 text-[var(--color-text-muted)] hover:text-red-600 transition-colors"
                           title="Eliminar"
                         >
                           <Trash2 className="w-4 h-4" />

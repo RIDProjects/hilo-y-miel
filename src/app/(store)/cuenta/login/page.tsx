@@ -36,7 +36,12 @@ export default function CustomerLoginPage() {
       }
 
       await refresh();
-      router.push("/cuenta/mis-pedidos");
+      // Si el usuario tiene rol admin, lo mandamos directo al panel
+      if (data.customer?.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/cuenta/mis-pedidos");
+      }
     } catch {
       setError("Error de conexión. Intentá de nuevo.");
     } finally {

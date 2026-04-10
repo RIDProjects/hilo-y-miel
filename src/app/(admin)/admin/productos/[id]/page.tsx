@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Save, ArrowLeft, Upload, X } from "lucide-react";
+import { Save, ArrowLeft, X } from "lucide-react";
 
 const CATEGORIES = ["collar", "pulsera", "arete", "aros", "tobillera", "amuleto"];
 
@@ -65,8 +65,8 @@ export default function EditarProductoPage() {
     setSaving(true);
 
     try {
-      const endpoint = productId === "nuevo" 
-        ? "/api/admin/products" 
+      const endpoint = productId === "nuevo"
+        ? "/api/admin/products"
         : `/api/admin/products/${productId}`;
       const method = productId === "nuevo" ? "POST" : "PUT";
 
@@ -110,10 +110,10 @@ export default function EditarProductoPage() {
   if (loading) {
     return (
       <main className="p-8">
-        <h1 className="text-3xl font-display text-brand-green mb-8">
+        <h1 className="text-3xl font-display text-[var(--brand-green)] mb-8">
           {productId === "nuevo" ? "Nuevo Producto" : "Editar Producto"}
         </h1>
-        <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark p-8 text-center text-gray-500">
+        <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-8 text-center text-[var(--color-text-muted)]">
           Cargando...
         </div>
       </main>
@@ -125,36 +125,36 @@ export default function EditarProductoPage() {
       <div className="flex items-center gap-4 mb-8">
         <button
           onClick={() => router.push("/admin/productos")}
-          className="p-2 hover:bg-brand-cream rounded-lg transition-colors"
+          className="p-2 hover:bg-[var(--brand-cream)] rounded-lg transition-colors"
         >
-          <ArrowLeft className="w-5 h-5 text-gray-600" />
+          <ArrowLeft className="w-5 h-5 text-[var(--color-text-muted)]" />
         </button>
-        <h1 className="text-3xl font-display text-brand-green">
+        <h1 className="text-3xl font-display text-[var(--brand-green)]">
           {productId === "nuevo" ? "Nuevo Producto" : "Editar Producto"}
         </h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark p-6">
-          <h2 className="text-lg font-display text-brand-green mb-4">Información básica</h2>
-          
+        <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-6">
+          <h2 className="text-lg font-display text-[var(--brand-green)] mb-4">Información básica</h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
+              <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Nombre *</label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+                className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
+              <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Categoría *</label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+                className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
                 required
               >
                 <option value="">Seleccionar...</option>
@@ -164,12 +164,12 @@ export default function EditarProductoPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Precio *</label>
+              <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Precio *</label>
               <input
                 type="number"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                className="w-full px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+                className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
                 required
               />
             </div>
@@ -179,41 +179,41 @@ export default function EditarProductoPage() {
                   type="checkbox"
                   checked={formData.is_available}
                   onChange={(e) => setFormData({ ...formData, is_available: e.target.checked })}
-                  className="w-4 h-4 text-brand-green border-gray-300 rounded focus:ring-brand-green"
+                  className="w-4 h-4 text-brand-green border-[var(--color-border)] rounded focus:ring-brand-green"
                 />
-                <span className="text-sm text-gray-700">Disponible</span>
+                <span className="text-sm text-[var(--color-text)]">Disponible</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={formData.featured}
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                  className="w-4 h-4 text-brand-green border-gray-300 rounded focus:ring-brand-green"
+                  className="w-4 h-4 text-brand-green border-[var(--color-border)] rounded focus:ring-brand-green"
                 />
-                <span className="text-sm text-gray-700">Destacado</span>
+                <span className="text-sm text-[var(--color-text)]">Destacado</span>
               </label>
             </div>
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+            <label className="block text-sm font-medium text-[var(--color-text)] mb-1">Descripción</label>
             <textarea
               value={formData.description || ""}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
-              className="w-full px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+              className="w-full px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark p-6">
-          <h2 className="text-lg font-display text-brand-green mb-4">Imágenes</h2>
-          
+        <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-6">
+          <h2 className="text-lg font-display text-[var(--brand-green)] mb-4">Imágenes</h2>
+
           <div className="flex gap-2 mb-4">
             <input
               type="url"
               placeholder="URL de imagen..."
-              className="flex-1 px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+              className="flex-1 px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -241,9 +241,9 @@ export default function EditarProductoPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-brand-cream-dark p-6">
-          <h2 className="text-lg font-display text-brand-green mb-4">Etiquetas</h2>
-          
+        <div className="bg-[var(--color-surface)] rounded-xl shadow-sm border border-[var(--color-border)] p-6">
+          <h2 className="text-lg font-display text-[var(--brand-green)] mb-4">Etiquetas</h2>
+
           <div className="flex gap-2 mb-4">
             <input
               type="text"
@@ -256,7 +256,7 @@ export default function EditarProductoPage() {
                 }
               }}
               placeholder="Agregar etiqueta..."
-              className="flex-1 px-4 py-2 border border-brand-cream-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green/50"
+              className="flex-1 px-4 py-2 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-brand-green/50"
             />
             <button
               type="button"
@@ -269,7 +269,7 @@ export default function EditarProductoPage() {
 
           <div className="flex flex-wrap gap-2">
             {formData.tags?.map((tag, idx) => (
-              <span key={idx} className="px-3 py-1 bg-brand-cream text-brand-green-dark rounded-full text-sm flex items-center gap-2">
+              <span key={idx} className="px-3 py-1 bg-[var(--brand-cream)] text-[var(--brand-green)] rounded-full text-sm flex items-center gap-2">
                 {tag}
                 <button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500">
                   <X className="w-3 h-3" />
@@ -291,7 +291,7 @@ export default function EditarProductoPage() {
           <button
             type="button"
             onClick={() => router.push("/admin/productos")}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-6 py-3 border border-[var(--color-border)] text-[var(--color-text)] rounded-lg hover:bg-[var(--color-border)] transition-colors"
           >
             Cancelar
           </button>

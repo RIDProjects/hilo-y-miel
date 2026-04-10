@@ -25,10 +25,10 @@ export async function POST(request: Request) {
 
     const customer = await prisma.customer.findUnique({ where: { email } });
 
-    // Siempre comparamos para evitar timing attacks
+    // Tiempo constante para evitar timing attacks
     const passwordMatch = customer
       ? await bcrypt.compare(password, customer.password)
-      : false;
+      : await bcrypt.compare(password, "$2b$12$invalidhashfortimingattackprevention");
 
     if (!customer || !passwordMatch) {
       return NextResponse.json(
@@ -37,9 +37,12 @@ export async function POST(request: Request) {
       );
     }
 
+    const role = (customer.role as "customer" | "admin") || "customer";
+
     const token = await signCustomerToken({
       customerId: customer.id,
       email: customer.email,
+      role,
     });
 
     const response = NextResponse.json({
@@ -48,6 +51,7 @@ export async function POST(request: Request) {
         email: customer.email,
         name: customer.name,
         phone: customer.phone,
+        role,
       },
     });
 
@@ -55,7 +59,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60, // 1 hora
+      maxAge: 60 * 60 * 24, // 24 horas
       path: "/",
     });
 

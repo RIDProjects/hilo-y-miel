@@ -13,6 +13,7 @@ model Customer {
   password   String
   name       String?
   phone      String?
+  role       String   @default("customer") // "customer" | "admin"
   created_at DateTime @default(now())
 
   orders Order[]
@@ -34,9 +35,9 @@ model Product {
   tags         String[]
   featured     Boolean  @default(false)
 
-  orderItems   OrderItem[]
+  orderItems    OrderItem[]
   customDesigns CustomDesign[]
-  cartItems    CartItem[]
+  cartItems     CartItem[]
 }
 
 model Order {
@@ -53,7 +54,6 @@ model Order {
   created_at     DateTime @default(now())
   notes          String?
 
-  // Relación opcional con cliente autenticado
   customer_id String?
   customer    Customer? @relation(fields: [customer_id], references: [id])
 
@@ -108,24 +108,11 @@ model CartItem {
 }
 
 model Component {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   type           String
   name           String
   image_url      String?
-  is_active      Boolean  @default(true)
-  price_modifier Float    @default(0)
-  sort_order     Int      @default(0)
-}
-
-model AdminSettings {
-  key        String   @id
-  value      Json
-  updated_at DateTime @updatedAt
-}
-
-model Admin {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
+  is_active      Boolean @default(true)
+  price_modifier Float   @default(0)
+  sort_order     Int     @default(0)
 }
