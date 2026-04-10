@@ -55,11 +55,12 @@ export async function POST(request: Request) {
       },
     });
 
+    // Sin maxAge → session cookie: muere cuando se cierra el browser
+    // El JWT tiene expiración interna de 8h como backstop de seguridad
     response.cookies.set("hilo-customer-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60 * 24, // 24 horas
       path: "/",
     });
 
