@@ -37,12 +37,13 @@ export async function POST(request: Request) {
 
     const customer = await prisma.customer.create({
       data: { email, password: hashedPassword, name, phone },
-      select: { id: true, email: true, name: true, phone: true },
+      select: { id: true, email: true, name: true, phone: true, role: true },
     });
 
     const token = await signCustomerToken({
       customerId: customer.id,
       email: customer.email,
+      role: (customer.role as "customer" | "admin") || "customer",
     });
 
     const response = NextResponse.json({ customer }, { status: 201 });
