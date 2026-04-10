@@ -14,7 +14,8 @@ export async function POST(request: Request) {
       );
     }
 
-    let admin = await prisma.admin.findUnique({ where: { email } });
+    let admin = await prisma.customer.findUnique({ where: { email } });
+    if (admin?.role !== "admin") admin = null;
 
     // Fallback: si no existe ningún admin, auto-crear desde env vars
     if (!admin) {
@@ -22,7 +23,11 @@ export async function POST(request: Request) {
       const envPassword = process.env.ADMIN_PASSWORD;
       if (envEmail && envPassword && email === envEmail && password === envPassword) {
         const hashed = await bcrypt.hash(password, 12);
-        admin = await prisma.admin.create({ data: { email, password: hashed } });
+        admin = await prisma.customer.upsert({
+          where: { email },
+          update: { role: "admin" },
+          create: { email, password: hashed, role: "admin" },
+        });
         console.log("[auth] Admin creado desde variables de entorno");
       }
     }
