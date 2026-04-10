@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -34,11 +35,17 @@ async function main() {
     console.log(`  ✓ Setting: ${setting.key}`);
   }
 
+  // Admin por defecto
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@hiloymiel.com";
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "Admin@Hilo2024!";
+  const existingAdmin = await prisma.admin.findUnique({ where: { email: adminEmail } });
+  if (!existingAdmin) {
+    const hashed = await bcrypt.hash(adminPassword, 12);
+    await prisma.admin.create({ data: { email: adminEmail, password: hashed } });
+    console.log(`  ✓ Admin: ${adminEmail}`);
+  }
+
   console.log("\nSeed completado.");
-  console.log("\nPara configurar el admin:");
-  console.log("  Agregá en .env:");
-  console.log("    ADMIN_EMAIL=tu@email.com");
-  console.log("    ADMIN_PASSWORD=tu_password_segura");
 }
 
 main()
