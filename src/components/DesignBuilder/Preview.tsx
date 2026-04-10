@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShoppingBag, RotateCcw, Palette, Gem, Ruler } from "lucide-react";
+import { RotateCcw, Palette, Gem, Ruler } from "lucide-react";
 import { useDesignBuilder, DesignSelections } from "@/hooks/useDesignBuilder";
 
 interface PreviewProps {
@@ -214,17 +214,12 @@ export default function Preview({ selections, calculatePrice, updateSelections }
         </div>
 
         <div className="p-4 border-t border-[var(--color-border)] bg-[var(--brand-cream-dark)]">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center">
             <span className="text-sm text-[var(--color-text-muted)]">Precio estimado</span>
             <span className="text-2xl font-medium text-[var(--brand-green)]">
               {formatPrice(calculatePrice())}
             </span>
           </div>
-
-          <button className="w-full btn-primary flex items-center justify-center gap-2">
-            <ShoppingBag className="w-5 h-5" />
-            Continuar al Pedido
-          </button>
         </div>
       </div>
 
