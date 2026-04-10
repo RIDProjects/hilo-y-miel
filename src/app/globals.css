@@ -17,6 +17,9 @@
   --color-text-muted: #5a7a57;
   --color-border: var(--brand-cream-dark);
 
+  /* Brand Gold */
+  --brand-gold: #C5973A;
+
   /* Accent */
   --color-accent: var(--brand-green);
   --color-accent-hover: var(--brand-green-mid);
@@ -40,6 +43,11 @@
   --color-border: #2a352a;
   --color-accent: #3D6B40;
   --color-accent-hover: #5E9060;
+
+  /* Brand overrides para dark mode — evita crema claro sobre fondo oscuro */
+  --brand-cream: #1C271C;
+  --brand-cream-dark: #2a352a;
+  --brand-gold: #D4AF37;
 
   /* Logo — visible sobre fondo oscuro */
   --logo-color: #8BC48E;

@@ -10,16 +10,8 @@ export default function Footer() {
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   return (
-    <footer className="bg-[var(--color-bg)] border-t border-[var(--color-border)] py-12 mt-20 relative overflow-hidden">
-      {/* Logo watermark — fondo del footer, spec: 3–5% dark / 4–6% light */}
-      <div
-        className="absolute inset-0 pointer-events-none flex items-center justify-end overflow-hidden"
-        aria-hidden="true"
-      >
-        <Logo className="w-[420px] h-auto mr-[-60px] opacity-[0.045] dark:opacity-[0.035]" />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+    <footer className="bg-[var(--color-bg)] border-t border-[var(--color-border)] py-12 mt-20">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Logo + tagline */}
         <div className="flex flex-col items-center gap-3 mb-10">
           <Logo className="h-20 w-auto" />
